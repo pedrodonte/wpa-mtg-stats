@@ -1,0 +1,98 @@
+// COMMANDER
+1 Teval, the Balanced Scale (TDC) 8 *F*
+
+1 Abrupt Decay (GK1) 57
+1 Accursed Marauder (MH3) 80
+1 An Offer You Can't Refuse (FDN) 160
+1 Arcane Denial (PLST) CMA-30
+1 Arcane Signet (EOC) 53
+1 Assassin's Trophy (SOC) 294
+1 Azusa, Lost but Seeking (CMM) 274
+1 Bala Ged Recovery (ZNR) 180
+1 Barren Moor (DSC) 262
+1 Beast Within (SOC) 263
+1 Beastmaster Ascension (NCC) 283
+1 Birds of Paradise (FIC) 483 *F*
+1 Blooming Marsh (OTJ) 266
+1 Bojuka Bog (SOC) 363
+1 Braids, Arisen Nightmare (EOC) 82
+1 Brainstorm (A25) 46
+1 Breeding Pool (EOE) 251
+1 Chatterfang, Squirrel General (BLC) 209
+1 City of Brass (2X2) 321
+1 Command Tower (SOC) 129
+1 Crop Rotation (DMR) 154
+1 Crucible of Worlds (2X2) 303
+1 Dakmor Salvage (EOC) 156
+1 Darkwater Catacombs (TDC) 355
+1 Deathcap Glade (SOS) 253
+1 Dismember (MM2) 79
+1 Doubling Season (FDN) 216
+1 Drowned Catacomb (DRC) 152
+1 Exotic Orchard (TDC) 360
+1 Fabled Passage (EOC) 60
+1 Festering Thicket (EOC) 41
+1 Flooded Strand (MH3) 220
+1 Forbidden Orchard (2X2) 323
+2 Forest (SOS) 280
+1 Formidable Speaker (ECL) 176
+1 Formless Genesis (EOC) 96
+1 Grist, the Hunger Tide (DSC) 220
+1 Haywire Mite (SOC) 349
+1 Heroic Intervention (CMM) 295
+1 Icetill Explorer (EOE) 192
+1 Insidious Roots (MKM) 208
+3 Island (SOS) 274
+1 Lightning Greaves (SOC) 350
+1 Living Death (CM2) 68
+1 Llanowar Wastes (SOC) 383
+1 Lonely Sandbar (EOC) 166
+1 Lotus Cobra (BLC) 229
+1 Lotus Field (SOC) 385
+1 Maha, Its Feathers Night (BLB) 100
+1 Meren of Clan Nel Toth (TDC) 297
+1 Mirkwood Bats (LTR) 421
+1 Mole Man, Moloid Master (MSH) 177
+1 Mudflat Village (BLB) 257
+1 Nature's Lore (SOC) 278
+1 Negate (BBD) 123
+1 Overgrown Tomb (ECL) 266
+1 Peregrin Took (LTR) 181
+1 Phyrexian Reclamation (TDC) 194
+1 Pitiless Plunderer (LCC) 208
+1 Ramunap Excavator (M3C) 241
+1 Reclamation Sage (FDN) 231
+1 Sakura-Tribe Elder (SOC) 285
+1 Scapeshift (M19) 201
+1 Scute Swarm (DSC) 197
+1 Shifting Woodland (MH3) 228
+1 Six (MH3) 169
+1 Skullclamp (TDC) 103
+1 Sol Ring (LCC) 313
+1 Spelunking (LCI) 213
+1 Sunken Hollow (TDC) 398
+2 Swamp (SOS) 276
+1 Syr Konrad, the Grim (DSC) 158
+1 Tatyova, Benthic Druid (FDN) 247
+1 Tear Asunder (EOC) 109
+1 The Gitrog Monster (EOC) 117
+1 Three Visits (MSC) 181
+1 Tireless Provisioner (BLC) 243
+1 Tireless Tracker (EOC) 110
+1 Titania, Protector of Argoth (EOC) 111
+1 Toski, Bearer of Secrets (BLC) 244
+1 Toxic Deluge (SOC) 120
+1 Tyvar's Stand (SOC) 291
+1 Undergrowth Stadium (CMM) 666
+1 Urborg, Tomb of Yawgmoth (TSR) 287
+1 Veil of Summer (M20) 198
+1 Victimize (TDC) 198
+1 Walk-In Closet // Forgotten Cellar (DSK) 205
+1 Watery Grave (EOE) 261
+1 Wonder (TDC) 170
+1 Wooded Foothills (MH3) 236
+1 Woodland Cemetery (SOC) 424
+1 World Shaper (OTC) 214
+1 Worldly Tutor (DMR) 185
+1 Yavimaya, Cradle of Growth (M3C) 409
+1 Zuran Orb (MH2) 300

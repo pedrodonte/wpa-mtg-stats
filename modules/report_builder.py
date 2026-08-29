@@ -158,11 +158,14 @@ def build_summary(analysis: DeckAnalysis, deck_name: str, strategy: str) -> str:
         f"> Reporte generado por **MTG Telemetry Analyzer** — {datetime.now():%Y-%m-%d %H:%M}",
         "",
     ]
+    if analysis.commander:
+        header += [f"**Comandante:** {analysis.commander}", ""]
     if strategy:
         header += [f"**Estrategia:** {strategy}", ""]
     header += [
         "## 1. Resumen Ejecutivo y Métricas Estadísticas",
         "",
+        f"- **Comandante:** {analysis.commander or '—'}",
         f"- **Cartas totales:** {analysis.total_cards}",
         f"- **Tierras:** {analysis.total_lands}",
         f"- **CMC Promedio:** {analysis.curve.avg_cmc}",

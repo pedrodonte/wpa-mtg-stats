@@ -121,10 +121,11 @@ def init_state() -> None:
     st.session_state.setdefault("enriched", None)
     st.session_state.setdefault("not_found", [])
     st.session_state.setdefault("deck_name", "Mi Mazo")
+    st.session_state.setdefault("commander", None)
 
 
 def run_pipeline(raw_text: str, deck_name: str, strategy: str, deck_size: int) -> None:
-    cards, errors = parse_decklist(raw_text)
+    cards, errors, commander = parse_decklist(raw_text)
     if not cards:
         st.error("No se pudieron parsear cartas. Verifica el formato de la lista.")
         return
@@ -145,7 +146,7 @@ def run_pipeline(raw_text: str, deck_name: str, strategy: str, deck_size: int) -
     enriched, not_found = enrich_cards(cards, cache=cache, progress_cb=cb)
     progress.progress(1.0, text="Analizando…")
 
-    analysis = analyze(enriched, deck_size=deck_size)
+    analysis = analyze(enriched, deck_size=deck_size, commander=commander)
     report_md = build_report(enriched, analysis, deck_name=deck_name, strategy=strategy)
 
     st.session_state.report_md = report_md
@@ -153,6 +154,7 @@ def run_pipeline(raw_text: str, deck_name: str, strategy: str, deck_size: int) -
     st.session_state.enriched = enriched
     st.session_state.not_found = not_found
     st.session_state.deck_name = deck_name
+    st.session_state.commander = commander
     progress.empty()
     log.empty()
 
@@ -301,6 +303,11 @@ def render_results() -> None:
         return
 
     st.subheader(f"2 · {st.session_state.deck_name}")
+    commander = getattr(analysis, "commander", None) or st.session_state.get("commander")
+    if commander:
+        st.markdown(f"**👑 Comandante:** {commander}")
+    else:
+        st.caption("👑 Comandante no detectado (marca `// COMMANDER` en la lista).")
     render_metrics(analysis)
 
     if st.session_state.not_found:
@@ -343,6 +350,7 @@ def reset_analysis() -> None:
     st.session_state.enriched = None
     st.session_state.not_found = []
     st.session_state.deck_name = "Mi Mazo"
+    st.session_state.commander = None
 
 
 def _slug(name: str) -> str:

@@ -31,6 +31,7 @@ class CardInput:
     name: str
     set: str | None = None
     collector_number: str | None = None
+    is_commander: bool = False
 
     @property
     def key(self) -> str:
@@ -40,23 +41,39 @@ class CardInput:
         return self.name.strip().lower()
 
 
-def parse_decklist(raw_text: str) -> tuple[list[CardInput], list[str]]:
+# Comentario de ManaBox que marca al comandante en la línea siguiente.
+_COMMANDER_MARKER_RE = re.compile(r"^//\s*commander\b", re.I)
+
+
+def parse_decklist(
+    raw_text: str,
+) -> tuple[list[CardInput], list[str], str | None]:
     """Parsea texto crudo de ManaBox.
 
-    Devuelve una tupla ``(cartas, errores)`` donde ``errores`` contiene las
-    líneas no vacías que no pudieron interpretarse.
+    Devuelve ``(cartas, errores, comandante)``:
+      - ``errores``: líneas no vacías que no pudieron interpretarse.
+      - ``comandante``: nombre del comandante detectado vía ``// COMMANDER``
+        (la carta inmediatamente posterior al comentario), o ``None``.
     """
     cards: list[CardInput] = []
     errors: list[str] = []
+    commander: str | None = None
+    next_is_commander = False
 
     if not raw_text:
-        return cards, errors
+        return cards, errors, commander
 
     for raw_line in raw_text.splitlines():
         line = raw_line.strip()
         if not line:
             continue
-        # Ignorar encabezados/comentarios y secciones de sideboard vacías.
+
+        # Marca de comandante: la SIGUIENTE carta parseada es el comandante.
+        if _COMMANDER_MARKER_RE.match(line):
+            next_is_commander = True
+            continue
+
+        # Ignorar otros encabezados/comentarios y secciones vacías.
         if line.startswith(("#", "//")) or line.lower() in {"sideboard", "deck", "commander"}:
             continue
 
@@ -77,16 +94,22 @@ def parse_decklist(raw_text: str) -> tuple[list[CardInput], list[str]]:
             errors.append(raw_line)
             continue
 
+        is_cmd = next_is_commander
+        next_is_commander = False
+        if is_cmd and commander is None:
+            commander = name
+
         cards.append(
             CardInput(
                 quantity=qty,
                 name=name,
                 set=data.get("set"),
                 collector_number=data.get("cn"),
+                is_commander=is_cmd,
             )
         )
 
-    return cards, errors
+    return cards, errors, commander
 
 
 def total_cards(cards: list[CardInput]) -> int:

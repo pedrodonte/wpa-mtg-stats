@@ -454,9 +454,14 @@ class DeckAnalysis:
     total_cards: int
     total_lands: int
     total_value_usd: float
+    commander: str | None = None
 
 
-def analyze(cards: list[EnrichedCard], deck_size: int | None = None) -> DeckAnalysis:
+def analyze(
+    cards: list[EnrichedCard],
+    deck_size: int | None = None,
+    commander: str | None = None,
+) -> DeckAnalysis:
     total_cards = sum(c.quantity for c in cards)
     size = deck_size or max(total_cards, 1)
 
@@ -486,4 +491,5 @@ def analyze(cards: list[EnrichedCard], deck_size: int | None = None) -> DeckAnal
         total_cards=total_cards,
         total_lands=balance.total_lands,
         total_value_usd=total_value,
+        commander=commander,
     )

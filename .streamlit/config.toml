@@ -5,7 +5,7 @@ enableStaticServing = true
 enableXsrfProtection = true
 
 [theme]
-# Paleta Jeskai: Blanco (W) + Azul (U) + Rojo (R)
+# Paleta tricolor: Blanco (W) + Azul (U) + Rojo (R)
 base = "dark"
 primaryColor = "#E8493B"          # Rojo (R) — acento principal
 backgroundColor = "#0B1220"        # Azul noche profundo (U)

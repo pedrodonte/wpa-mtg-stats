@@ -10,7 +10,7 @@ import struct
 import zlib
 from pathlib import Path
 
-# Paleta Jeskai
+# Paleta tricolor (W/U/R)
 BG = (11, 18, 32)        # #0B1220 azul noche
 W_COL = (245, 243, 231)  # #F5F3E7 blanco marfil (W)
 U_COL = (59, 125, 216)   # #3B7DD8 azul (U)
@@ -35,7 +35,7 @@ def _png(width: int, height: int, pixels: bytes) -> bytes:
 
 
 def make(size: int) -> bytes:
-    """Rombo Jeskai dividido en tres franjas diagonales: W / U / R."""
+    """Rombo tricolor dividido en tres franjas diagonales: W / U / R."""
     cx = cy = size / 2
     r = size * 0.36
     buf = bytearray()

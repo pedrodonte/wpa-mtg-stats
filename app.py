@@ -8,6 +8,7 @@ Ejecutar con:  streamlit run app.py
 from __future__ import annotations
 
 import json
+import os
 from pathlib import Path
 
 import streamlit as st
@@ -18,6 +19,24 @@ from modules.report_builder import build_report
 from modules.scryfall_client import ScryfallCache, enrich_cards
 
 BASE_DIR = Path(__file__).resolve().parent
+
+
+def get_app_version() -> str:
+    """Versión del build (APP_VERSION), formato yyyymmdd_hhmm.
+
+    Prioriza la variable de entorno; si no está, la lee del `.env` del
+    proyecto. Devuelve 'dev' si no hay ninguna definida.
+    """
+    version = os.environ.get("APP_VERSION")
+    if version:
+        return version
+    env_file = BASE_DIR / ".env"
+    if env_file.exists():
+        for line in env_file.read_text(encoding="utf-8").splitlines():
+            line = line.strip()
+            if line.startswith("APP_VERSION="):
+                return line.split("=", 1)[1].strip().strip('"').strip("'") or "dev"
+    return "dev"
 
 # --------------------------------------------------------------------------- #
 # Configuración de página (mobile-first)
@@ -43,21 +62,21 @@ def inject_pwa() -> None:
 
 
 def inject_theme() -> None:
-    """Estilo Jeskai (W/U/R): barra de acento tricolor y detalles de UI."""
+    """Tema tricolor (W/U/R): barra de acento y detalles de UI."""
     css = """
     <style>
-      /* Barra de acento Jeskai bajo el encabezado */
+      /* Barra de acento tricolor bajo el encabezado */
       .block-container h1:first-of-type {
         border-bottom: 4px solid transparent;
         border-image: linear-gradient(90deg,#F5F3E7 0%,#3B7DD8 50%,#E8493B 100%) 1;
         padding-bottom: 0.35rem;
       }
-      /* Métricas: valor en rojo Jeskai */
+      /* Métricas: valor en rojo de acento */
       [data-testid="stMetricValue"] { color: #E8493B; }
       /* Pestaña activa subrayada en azul */
       .stTabs [aria-selected="true"] { color: #3B7DD8 !important; }
       .stTabs [data-baseweb="tab-highlight"] { background-color: #3B7DD8 !important; }
-      /* Botón primario con degradado Jeskai */
+      /* Botón primario con degradado tricolor */
       .stButton > button[kind="primary"] {
         background: linear-gradient(90deg,#3B7DD8 0%,#E8493B 100%);
         border: none; color: #F5F3E7; font-weight: 600;
@@ -329,7 +348,10 @@ def main() -> None:
     inject_theme()
 
     st.title("🎴 MTG Telemetry Analyzer")
-    st.caption("Estilo Jeskai ⚪🔵🔴 · Analiza mazos de Magic desde ManaBox · métricas + reporte para LLMs.")
+    st.caption(
+        f"Analiza mazos de Magic desde ManaBox · métricas + reporte para LLMs. "
+        f"· versión {get_app_version()}"
+    )
 
     render_upload()
     st.divider()

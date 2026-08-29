@@ -1,0 +1,21 @@
+{
+  "short_name": "MTGAnalyzer",
+  "name": "MTG Telemetry Analyzer",
+  "icons": [
+    {
+      "src": "/app/static/icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/app/static/icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#0B1220",
+  "theme_color": "#E8493B",
+  "display": "standalone",
+  "orientation": "portrait"
+}

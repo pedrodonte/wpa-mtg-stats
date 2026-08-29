@@ -330,6 +330,20 @@ def render_results() -> None:
         use_container_width=True,
     )
 
+    st.divider()
+    if st.button("🔄 Procesar un nuevo mazo", use_container_width=True):
+        reset_analysis()
+        st.rerun()
+
+
+def reset_analysis() -> None:
+    """Limpia el resultado actual para empezar con un mazo nuevo."""
+    st.session_state.report_md = None
+    st.session_state.analysis = None
+    st.session_state.enriched = None
+    st.session_state.not_found = []
+    st.session_state.deck_name = "Mi Mazo"
+
 
 def _slug(name: str) -> str:
     keep = [c.lower() if c.isalnum() else "-" for c in name]

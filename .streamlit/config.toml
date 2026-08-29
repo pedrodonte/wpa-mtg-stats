@@ -5,12 +5,13 @@ enableStaticServing = true
 enableXsrfProtection = true
 
 [theme]
-# Paleta tricolor: Blanco (W) + Azul (U) + Rojo (R)
+# Paleta Matrix: fondo casi negro + verde neón
 base = "dark"
-primaryColor = "#E8493B"          # Rojo (R) — acento principal
-backgroundColor = "#0B1220"        # Azul noche profundo (U)
-secondaryBackgroundColor = "#14213D"  # Azul acero (U)
-textColor = "#F5F3E7"              # Blanco marfil (W)
+primaryColor = "#00FF41"           # Verde Matrix — acento principal
+backgroundColor = "#0A0F0A"        # Negro con tinte verde
+secondaryBackgroundColor = "#0F1A0F"  # Verde muy oscuro (paneles)
+textColor = "#39FF14"              # Verde neón (texto)
+font = "monospace"
 
 [browser]
 gatherUsageStats = false

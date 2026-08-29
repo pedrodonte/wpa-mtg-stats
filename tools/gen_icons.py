@@ -10,11 +10,10 @@ import struct
 import zlib
 from pathlib import Path
 
-# Paleta tricolor (W/U/R)
-BG = (11, 18, 32)        # #0B1220 azul noche
-W_COL = (245, 243, 231)  # #F5F3E7 blanco marfil (W)
-U_COL = (59, 125, 216)   # #3B7DD8 azul (U)
-R_COL = (232, 73, 59)    # #E8493B rojo (R)
+# Paleta Matrix
+BG = (10, 15, 10)         # #0A0F0A negro con tinte verde
+GREEN = (0, 255, 65)      # #00FF41 verde Matrix
+GREEN_DIM = (18, 90, 36)  # verde oscuro (halo interior)
 STATIC = Path(__file__).resolve().parent.parent / "static"
 
 
@@ -35,23 +34,19 @@ def _png(width: int, height: int, pixels: bytes) -> bytes:
 
 
 def make(size: int) -> bytes:
-    """Rombo tricolor dividido en tres franjas diagonales: W / U / R."""
+    """Rombo verde Matrix sobre fondo negro, con borde neón y halo interior."""
     cx = cy = size / 2
-    r = size * 0.36
+    r = size * 0.38
+    inner = r * 0.62  # borde del anillo neón
     buf = bytearray()
     for y in range(size):
         for x in range(size):
-            dx = x - cx
-            dy = y - cy
-            if abs(dx) + abs(dy) <= r:
-                # Franjas diagonales según posición sobre el eje x normalizado.
-                t = (dx + r) / (2 * r)  # 0..1 de izquierda a derecha
-                if t < 0.34:
-                    buf.extend((*W_COL, 255))
-                elif t < 0.67:
-                    buf.extend((*U_COL, 255))
+            d = abs(x - cx) + abs(y - cy)  # distancia rómbica
+            if d <= r:
+                if d >= inner:
+                    buf.extend((*GREEN, 255))      # borde neón brillante
                 else:
-                    buf.extend((*R_COL, 255))
+                    buf.extend((*GREEN_DIM, 255))  # interior verde oscuro
             else:
                 buf.extend((*BG, 255))
     return _png(size, size, bytes(buf))

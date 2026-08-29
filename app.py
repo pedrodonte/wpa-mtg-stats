@@ -53,7 +53,7 @@ def inject_pwa() -> None:
     """Inyecta metadatos PWA y viewport móvil."""
     pwa_tags = """
     <link rel="manifest" href="./app/static/manifest.json">
-    <meta name="theme-color" content="#E8493B">
+    <meta name="theme-color" content="#00FF41">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -62,25 +62,49 @@ def inject_pwa() -> None:
 
 
 def inject_theme() -> None:
-    """Tema tricolor (W/U/R): barra de acento y detalles de UI."""
+    """Tema Matrix: fondo casi negro, verde neón y fuente monoespaciada."""
     css = """
     <style>
-      /* Barra de acento tricolor bajo el encabezado */
+      @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;800&display=swap');
+
+      /* Fuente de código en toda la app */
+      html, body, [class*="css"], .stMarkdown, .stMetric,
+      button, input, textarea, .stDataFrame {
+        font-family: 'JetBrains Mono', ui-monospace, 'Cascadia Code',
+                     Consolas, monospace !important;
+      }
+
+      /* Título con brillo verde estilo terminal */
       .block-container h1:first-of-type {
-        border-bottom: 4px solid transparent;
-        border-image: linear-gradient(90deg,#F5F3E7 0%,#3B7DD8 50%,#E8493B 100%) 1;
+        color: #00FF41;
+        text-shadow: 0 0 8px rgba(0,255,65,0.55);
+        border-bottom: 2px solid #00FF41;
         padding-bottom: 0.35rem;
+        letter-spacing: 0.5px;
       }
-      /* Métricas: valor en rojo de acento */
-      [data-testid="stMetricValue"] { color: #E8493B; }
-      /* Pestaña activa subrayada en azul */
-      .stTabs [aria-selected="true"] { color: #3B7DD8 !important; }
-      .stTabs [data-baseweb="tab-highlight"] { background-color: #3B7DD8 !important; }
-      /* Botón primario con degradado tricolor */
+      h2, h3, h4 { color: #39FF14 !important; }
+
+      /* Métricas: valor en verde neón con leve glow */
+      [data-testid="stMetricValue"] {
+        color: #00FF41;
+        text-shadow: 0 0 6px rgba(0,255,65,0.45);
+      }
+      [data-testid="stMetricLabel"] { color: #7CFF9B !important; }
+
+      /* Pestaña activa en verde */
+      .stTabs [aria-selected="true"] { color: #00FF41 !important; }
+      .stTabs [data-baseweb="tab-highlight"] { background-color: #00FF41 !important; }
+
+      /* Botón primario estilo terminal */
       .stButton > button[kind="primary"] {
-        background: linear-gradient(90deg,#3B7DD8 0%,#E8493B 100%);
-        border: none; color: #F5F3E7; font-weight: 600;
+        background: #00FF41; border: none; color: #05140A; font-weight: 800;
+        box-shadow: 0 0 10px rgba(0,255,65,0.4);
       }
+      .stButton > button {
+        border: 1px solid #1f5f2f; color: #39FF14; background: #0F1A0F;
+      }
+      /* Barra de progreso verde */
+      .stProgress > div > div > div > div { background-color: #00FF41; }
     </style>
     """
     st.markdown(css, unsafe_allow_html=True)
@@ -91,9 +115,10 @@ def copy_button(text: str, label: str = "📋 Copiar al portapapeles") -> None:
     payload = json.dumps(text)
     html = f"""
     <button id="copy-md" style="
-        width:100%;padding:0.65rem 1rem;border:none;border-radius:0.5rem;
-        background:linear-gradient(90deg,#F5F3E7 0%,#3B7DD8 50%,#E8493B 100%);
-        color:#0B1220;font-size:1rem;font-weight:600;cursor:pointer;">
+        width:100%;padding:0.65rem 1rem;border:1px solid #00FF41;border-radius:0.5rem;
+        background:#00FF41;color:#05140A;font-size:1rem;font-weight:800;
+        font-family:'JetBrains Mono',monospace;cursor:pointer;
+        box-shadow:0 0 10px rgba(0,255,65,0.4);">
         {label}
     </button>
     <script>

@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import json
 import os
+from datetime import datetime
 from pathlib import Path
 
 import streamlit as st
@@ -162,7 +163,7 @@ def init_state() -> None:
     st.session_state.setdefault("llm_md", None)
 
 
-def run_pipeline(raw_text: str, deck_name: str, strategy: str, deck_size: int) -> None:
+def run_pipeline(raw_text: str, deck_size: int) -> None:
     cards, errors, commander = parse_decklist(raw_text)
     if not cards:
         st.error("No se pudieron parsear cartas. Verifica el formato de la lista.")
@@ -170,6 +171,10 @@ def run_pipeline(raw_text: str, deck_name: str, strategy: str, deck_size: int) -
     if errors:
         with st.expander(f"⚠️ {len(errors)} línea(s) no reconocida(s)"):
             st.code("\n".join(errors))
+
+    # El nombre del mazo se deriva del comandante detectado.
+    deck_name = commander or "Mi Mazo"
+    strategy = ""
 
     st.info(f"Parseadas {len(cards)} entradas · {total_cards(cards)} copias totales.")
 
@@ -206,8 +211,6 @@ def render_upload() -> None:
     st.subheader("1 · Carga tu mazo")
     st.caption("Exporta desde ManaBox como texto plano, o pega la lista directamente.")
 
-    deck_name = st.text_input("Nombre del mazo", value=st.session_state.deck_name)
-    strategy = st.text_input("Estrategia (opcional)", placeholder="Ej: Artefactos / Karnstructs")
     deck_size = st.number_input(
         "Tamaño del mazo (N para hipergeométrica)",
         min_value=40, max_value=250, value=99, step=1,
@@ -231,7 +234,7 @@ def render_upload() -> None:
         if not raw_text.strip():
             st.warning("Sube un archivo o pega una lista primero.")
         else:
-            run_pipeline(raw_text, deck_name.strip() or "Mi Mazo", strategy.strip(), int(deck_size))
+            run_pipeline(raw_text, int(deck_size))
 
 
 def render_metrics(analysis) -> None:
@@ -383,7 +386,9 @@ def render_results() -> None:
     st.download_button(
         "⬇️ Descargar Markdown (.md)",
         data=report_md.encode("utf-8"),
-        file_name=f"{_slug(st.session_state.deck_name)}.md",
+        file_name=_export_filename(
+            st.session_state.get("commander") or st.session_state.deck_name
+        ),
         mime="text/markdown",
         use_container_width=True,
     )
@@ -411,6 +416,26 @@ def _slug(name: str) -> str:
     while "--" in slug:
         slug = slug.replace("--", "-")
     return slug or "mtg-report"
+
+
+def _first_word(name: str) -> str:
+    """Primera palabra del nombre: corta en el primer espacio, punto o coma."""
+    for sep in (" ", ".", ","):
+        name = name.split(sep, 1)[0]
+    return name.strip()
+
+
+def _export_filename(name: str, now: datetime | None = None) -> str:
+    """Nombre del .md: {comandante}_{yyyy}_{dia_del_año}.md.
+
+    Solo se usa la primera palabra del comandante (hasta el primer espacio,
+    punto o coma). 'día del año' es el ordinal 1-366 (day-of-year).
+    Ej: 'Teval, the Balanced Scale' -> 'teval_2026_241.md'.
+    """
+    now = now or datetime.now()
+    year = now.year
+    day_of_year = now.timetuple().tm_yday
+    return f"{_slug(_first_word(name))}_{year}_{day_of_year}.md"
 
 
 # --------------------------------------------------------------------------- #

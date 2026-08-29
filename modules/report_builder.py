@@ -51,20 +51,73 @@ def build_curve_section(analysis: DeckAnalysis) -> str:
 def build_balance_section(analysis: DeckAnalysis) -> str:
     b = analysis.balance
     lines = [
-        "### Balance de Maná (PIPs vs. Fuentes)",
+        "### Balance de Maná (Intensidad de PIPs vs. Fuentes)",
         "",
         f"- **Tierras totales:** {b.total_lands}",
         "",
-        "| Color | PIPs Requeridos | Fuentes | Ratio Cobertura |",
-        "| :---- | :-------------: | :-----: | :-------------: |",
+        "| Color | PIPs Requeridos | Fuentes | Ratio | Diagnóstico |",
+        "| :---- | :-------------: | :-----: | :---: | :---------- |",
     ]
     for color in COLORS:
         req = b.pips_required.get(color, 0)
         src = b.sources_available.get(color, 0)
-        ratio = b.coverage_ratio.get(color, 0.0)
         if req == 0 and src == 0:
             continue
-        lines.append(f"| {color} ({COLOR_NAMES[color]}) | {req} | {src} | {ratio} |")
+        ratio = b.coverage_ratio.get(color)
+        ratio_str = "N/A" if ratio is None else f"{ratio}"
+        diag = b.diagnosis.get(color, "N/A")
+        lines.append(
+            f"| {color} ({COLOR_NAMES[color]}) | {req} | {src} | {ratio_str} | {diag} |"
+        )
+    return "\n".join(lines)
+
+
+def _examples(names: list[str], limit: int = 4) -> str:
+    if not names:
+        return ""
+    sample = ", ".join(names[:limit]) + ("…" if len(names) > limit else "")
+    return f" (Ej: {sample})"
+
+
+def build_telemetry_section(analysis: DeckAnalysis) -> str:
+    """Sección v2: Métricas Cuantitativas y Telemetría (spect_metricas.v2.md §4)."""
+    acc = analysis.acceleration
+    cc = analysis.combat
+    res = analysis.resilience
+    c = analysis.consistency
+
+    lines = [
+        "## Métricas Cuantitativas y Telemetría",
+        "",
+        "### Aceleración y Recursos",
+        f"- **Artefactos de Maná (Mana Rocks):** {acc.mana_rocks} copias"
+        f"{_examples(acc.rocks_examples)}",
+        f"- **Criaturas de Maná (Mana Dorks):** {acc.mana_dorks} copias"
+        f"{_examples(acc.dorks_examples)}",
+        f"- **Motores de Creación de Fichas:** {acc.token_producers} cartas"
+        f"{_examples(acc.token_examples)}",
+        "",
+        "### Capacidad Ofensiva (Combat Clock)",
+        f"- **Poder Total Base en Criaturas:** {cc.total_power}",
+        f"- **Criaturas con Evasión:** {cc.evasion_count}",
+        f"- **Habilitadores de Prisa (Haste):** {cc.haste_count}",
+        f"- **Poder Promedio / Criatura:** {cc.avg_power_per_creature:.2f}",
+        f"- **Índice de Reloj de Combate (CCI):** {cc.combat_clock_index:.2f}",
+        f"- **Criaturas con Poder Dinámico (*/X):** {cc.dynamic_power_creatures}",
+        "",
+        "### Resiliencia y Sustento",
+        f"- **Fuentes de Ganancia de Vida:** {res.lifegain_sources}",
+        f"- **Consumidores de Vida como Recurso:** {res.life_as_resource}",
+        f"- **Protección Activa (Hexproof/Indestructible/Ward/Counter):** {res.active_protection}",
+        f"- **Recursión de Cementerio:** {res.graveyard_recursion}",
+        f"- **Disparadores de Muerte (Death Triggers):** {res.death_triggers}",
+        "",
+        "### Consistencia de Base de Maná",
+        f"- **Tierras Totales:** {c.total_lands} "
+        f"(Lentas/Taplands incondicionales: {analysis.taplands})",
+        f"- **P(≥3 tierras en T3 - 9 cartas):** {c.p_lands_t3 * 100:.1f}%",
+        f"- **P(≥1 Ramp en mano inicial - 7 cartas):** {c.p_ramp_opening * 100:.1f}%",
+    ]
     return "\n".join(lines)
 
 
@@ -166,6 +219,10 @@ def build_report(
         build_roles_section(analysis),
         "",
         build_consistency_section(analysis),
+        "",
+        "---",
+        "",
+        build_telemetry_section(analysis),
         "",
         "---",
         "",

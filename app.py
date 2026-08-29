@@ -178,9 +178,10 @@ def render_metrics(analysis) -> None:
     c1.metric("Cartas", analysis.total_cards)
     c2.metric("Tierras", analysis.total_lands)
     c3.metric("CMC prom.", analysis.curve.avg_cmc)
-    c4, c5 = st.columns(2)
+    c4, c5, c6 = st.columns(3)
     c4.metric("P(≥3 tierras T3)", f"{analysis.consistency.p_lands_t3 * 100:.0f}%")
-    c5.metric("Valor USD", f"${analysis.total_value_usd:.0f}")
+    c5.metric("Índice CCI", f"{analysis.combat.combat_clock_index:.1f}")
+    c6.metric("Valor USD", f"${analysis.total_value_usd:.0f}")
 
 
 def render_stats_tab(analysis) -> None:
@@ -190,19 +191,21 @@ def render_stats_tab(analysis) -> None:
         use_container_width=True,
     )
 
-    st.markdown("#### Balance de Color")
+    st.markdown("#### Balance de Color (Intensidad de PIPs)")
     rows = []
     for color in COLORS:
         req = analysis.balance.pips_required.get(color, 0)
         src = analysis.balance.sources_available.get(color, 0)
         if req == 0 and src == 0:
             continue
+        ratio = analysis.balance.coverage_ratio.get(color)
         rows.append(
             {
                 "Color": f"{color} · {COLOR_NAMES[color]}",
                 "PIPs": req,
                 "Fuentes": src,
-                "Ratio": analysis.balance.coverage_ratio.get(color, 0.0),
+                "Ratio": "N/A" if ratio is None else ratio,
+                "Diagnóstico": analysis.balance.diagnosis.get(color, "N/A"),
             }
         )
     if rows:
@@ -227,6 +230,51 @@ def render_roles_tab(analysis) -> None:
             st.write(", ".join(roles.cards_by_role.get(role, [])))
 
 
+def render_telemetry_tab(analysis) -> None:
+    acc = analysis.acceleration
+    cc = analysis.combat
+    res = analysis.resilience
+
+    st.markdown("#### 🚀 Aceleración y Recursos")
+    a1, a2, a3 = st.columns(3)
+    a1.metric("Mana Rocks", acc.mana_rocks)
+    a2.metric("Mana Dorks", acc.mana_dorks)
+    a3.metric("Motores de Fichas", acc.token_producers)
+    if acc.rocks_examples:
+        st.caption("Rocks: " + ", ".join(acc.rocks_examples[:6]))
+    if acc.dorks_examples:
+        st.caption("Dorks: " + ", ".join(acc.dorks_examples[:6]))
+    if acc.token_examples:
+        st.caption("Fichas: " + ", ".join(acc.token_examples[:6]))
+
+    st.markdown("#### ⚔️ Capacidad Ofensiva (Combat Clock)")
+    c1, c2, c3 = st.columns(3)
+    c1.metric("Poder Total", cc.total_power)
+    c2.metric("Evasión", cc.evasion_count)
+    c3.metric("Haste", cc.haste_count)
+    c4, c5 = st.columns(2)
+    c4.metric("Poder / Criatura", f"{cc.avg_power_per_creature:.2f}")
+    c5.metric("Índice CCI", f"{cc.combat_clock_index:.2f}")
+    if cc.dynamic_power_creatures:
+        st.caption(f"Criaturas con poder dinámico (*/X): {cc.dynamic_power_creatures}")
+
+    st.markdown("#### 🛡️ Resiliencia y Sustento")
+    r1, r2, r3 = st.columns(3)
+    r1.metric("Ganancia de Vida", res.lifegain_sources)
+    r2.metric("Vida como Recurso", res.life_as_resource)
+    r3.metric("Protección Activa", res.active_protection)
+    r4, r5 = st.columns(2)
+    r4.metric("Recursión Cementerio", res.graveyard_recursion)
+    r5.metric("Death Triggers", res.death_triggers)
+
+    st.markdown("#### 🌐 Base de Maná")
+    total_lands = analysis.total_lands
+    tap_pct = (analysis.taplands / total_lands * 100) if total_lands else 0.0
+    b1, b2 = st.columns(2)
+    b1.metric("Tierras Totales", total_lands)
+    b2.metric("Taplands (lentas)", f"{analysis.taplands} · {tap_pct:.0f}%")
+
+
 def render_results() -> None:
     analysis = st.session_state.analysis
     report_md = st.session_state.report_md
@@ -240,9 +288,13 @@ def render_results() -> None:
         with st.expander(f"⚠️ {len(st.session_state.not_found)} carta(s) no encontrada(s)"):
             st.code("\n".join(st.session_state.not_found))
 
-    tab_stats, tab_roles, tab_md = st.tabs(["📊 Estadísticas", "🎯 Roles Tácticos", "📄 Vista Previa MD"])
+    tab_stats, tab_tel, tab_roles, tab_md = st.tabs(
+        ["📊 Estadísticas", "📡 Telemetría", "🎯 Roles Tácticos", "📄 Vista Previa MD"]
+    )
     with tab_stats:
         render_stats_tab(analysis)
+    with tab_tel:
+        render_telemetry_tab(analysis)
     with tab_roles:
         render_roles_tab(analysis)
     with tab_md:

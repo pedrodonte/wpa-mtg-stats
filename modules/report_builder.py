@@ -232,3 +232,36 @@ def build_report(
         build_manifest(cards),
     ]
     return "\n".join(sections).strip() + "\n"
+
+
+# Bloque de instrucciones para pegar en un LLM (Gemini, ChatGPT, etc.).
+LLM_PROMPT_HEADER = """\
+# INSTRUCCIONES PARA EL MODELO DE IA
+
+> Actúa como un analista competitivo de MTG Commander.
+> Analiza la telemetría y el "Manifiesto de Cartas" adjunto.
+>
+> REGLAS OBLIGATORIAS:
+> 1. Antes de sugerir una adición, verifica exhaustivamente que NO esté en el Manifiesto.
+> 2. Justifica cada corte/adición usando las métricas (PIPs, CCI, CMC, Hipergeométrica, Resiliencia).
+> 3. Entrega: Diagnóstico de Maná, Top 3 Cortes con justificación, Top 3 Adiciones \
+(formato "Carta A entra por Carta B") y Power Level estimado (1-10).
+
+---
+"""
+
+
+def build_llm_prompt() -> str:
+    """Bloque de instrucciones para anteponer al reporte al pegarlo en un LLM."""
+    return LLM_PROMPT_HEADER
+
+
+def build_llm_report(
+    cards: list[EnrichedCard],
+    analysis: DeckAnalysis,
+    deck_name: str = "Mazo sin nombre",
+    strategy: str = "",
+) -> str:
+    """Reporte completo precedido del prompt de instrucciones para el LLM."""
+    report = build_report(cards, analysis, deck_name=deck_name, strategy=strategy)
+    return f"{build_llm_prompt()}\n{report}"

@@ -5,6 +5,8 @@ Aplicación web ligera y **PWA** construida con **Streamlit** para analizar mazo
 **batch** de Scryfall, calcula métricas de consistencia de maná y roles tácticos, y
 exporta un reporte **Markdown** optimizado como prompt para LLMs (Gemini, etc.).
 
+Desplegada en: `https://wpa-mtg-stats.streamlit.app/`
+
 ## Características
 
 - **Parser ManaBox**: lee `.txt` exportado o texto pegado (`4 Sol Ring (C21) 250 *F*`).

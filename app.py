@@ -15,7 +15,7 @@ import streamlit as st
 
 from modules.analyzer import COLOR_NAMES, COLORS, analyze
 from modules.parser import parse_decklist, total_cards
-from modules.report_builder import build_report
+from modules.report_builder import build_llm_report, build_report
 from modules.scryfall_client import ScryfallCache, enrich_cards
 
 BASE_DIR = Path(__file__).resolve().parent
@@ -110,11 +110,20 @@ def inject_theme() -> None:
     st.markdown(css, unsafe_allow_html=True)
 
 
-def copy_button(text: str, label: str = "📋 Copiar al portapapeles") -> None:
-    """Botón JS de un toque para copiar Markdown al portapapeles."""
+def copy_button(
+    text: str,
+    label: str = "📋 Copiar al portapapeles",
+    key: str = "md",
+) -> None:
+    """Botón JS de un toque para copiar texto al portapapeles.
+
+    ``key`` distingue instancias cuando hay varios botones en la página.
+    """
     payload = json.dumps(text)
+    label_js = json.dumps(label)
+    btn_id = f"copy-{key}"
     html = f"""
-    <button id="copy-md" style="
+    <button id="{btn_id}" style="
         width:100%;padding:0.65rem 1rem;border:1px solid #00FF41;border-radius:0.5rem;
         background:#00FF41;color:#05140A;font-size:1rem;font-weight:800;
         font-family:'JetBrains Mono',monospace;cursor:pointer;
@@ -122,16 +131,19 @@ def copy_button(text: str, label: str = "📋 Copiar al portapapeles") -> None:
         {label}
     </button>
     <script>
-    const btn = document.getElementById('copy-md');
-    btn.addEventListener('click', async () => {{
-        try {{
-            await navigator.clipboard.writeText({payload});
-            btn.innerText = '✅ Copiado';
-            setTimeout(() => btn.innerText = '{label}', 1800);
-        }} catch (e) {{
-            btn.innerText = '⚠️ No se pudo copiar';
-        }}
-    }});
+    (function() {{
+        const btn = document.getElementById({json.dumps(btn_id)});
+        const label = {label_js};
+        btn.addEventListener('click', async () => {{
+            try {{
+                await navigator.clipboard.writeText({payload});
+                btn.innerText = '✅ Copiado';
+                setTimeout(() => btn.innerText = label, 1800);
+            }} catch (e) {{
+                btn.innerText = '⚠️ No se pudo copiar';
+            }}
+        }});
+    }})();
     </script>
     """
     st.components.v1.html(html, height=60)
@@ -147,6 +159,7 @@ def init_state() -> None:
     st.session_state.setdefault("not_found", [])
     st.session_state.setdefault("deck_name", "Mi Mazo")
     st.session_state.setdefault("commander", None)
+    st.session_state.setdefault("llm_md", None)
 
 
 def run_pipeline(raw_text: str, deck_name: str, strategy: str, deck_size: int) -> None:
@@ -173,8 +186,10 @@ def run_pipeline(raw_text: str, deck_name: str, strategy: str, deck_size: int) -
 
     analysis = analyze(enriched, deck_size=deck_size, commander=commander)
     report_md = build_report(enriched, analysis, deck_name=deck_name, strategy=strategy)
+    llm_md = build_llm_report(enriched, analysis, deck_name=deck_name, strategy=strategy)
 
     st.session_state.report_md = report_md
+    st.session_state.llm_md = llm_md
     st.session_state.analysis = analysis
     st.session_state.enriched = enriched
     st.session_state.not_found = not_found
@@ -353,7 +368,18 @@ def render_results() -> None:
 
     st.divider()
     st.subheader("3 · Exportar")
-    copy_button(report_md)
+    copy_button(report_md, "📋 Copiar reporte", key="report")
+
+    llm_md = st.session_state.get("llm_md") or report_md
+    copy_button(
+        llm_md,
+        "🤖 Copiar con prompt para IA",
+        key="llm",
+    )
+    st.caption(
+        "Incluye instrucciones para analizar el mazo en un LLM (Gemini, ChatGPT…)."
+    )
+
     st.download_button(
         "⬇️ Descargar Markdown (.md)",
         data=report_md.encode("utf-8"),
@@ -376,6 +402,7 @@ def reset_analysis() -> None:
     st.session_state.not_found = []
     st.session_state.deck_name = "Mi Mazo"
     st.session_state.commander = None
+    st.session_state.llm_md = None
 
 
 def _slug(name: str) -> str:

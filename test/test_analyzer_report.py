@@ -7,7 +7,7 @@ estructura del Markdown de salida.
 from __future__ import annotations
 
 from modules.analyzer import analyze, hypergeometric_at_least
-from modules.report_builder import build_report
+from modules.report_builder import build_llm_report, build_report
 from modules.scryfall_client import EnrichedCard
 
 
@@ -112,6 +112,21 @@ def test_report_contains_commander_and_sections():
     # El manifiesto lista cada carta.
     assert "### Sol Ring (x1)" in md
     assert "### Forest (x10)" in md
+
+
+def test_llm_report_prepends_prompt():
+    """El reporte para IA antepone el bloque de instrucciones al reporte."""
+    deck = _deck()
+    a = analyze(deck, deck_size=99, commander="Teval, the Balanced Scale")
+    llm = build_llm_report(deck, a, deck_name="Mazo Test", strategy="Tokens")
+    plain = build_report(deck, a, deck_name="Mazo Test", strategy="Tokens")
+    # Empieza con las instrucciones para el modelo.
+    assert llm.startswith("# INSTRUCCIONES PARA EL MODELO DE IA")
+    assert "analista competitivo de MTG Commander" in llm
+    assert "Power Level estimado" in llm
+    # Y contiene el reporte completo a continuación.
+    assert plain.strip() in llm
+    assert "**Comandante:** Teval, the Balanced Scale" in llm
 
 
 def run() -> None:

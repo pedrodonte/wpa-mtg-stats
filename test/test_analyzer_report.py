@@ -114,6 +114,30 @@ def test_report_contains_commander_and_sections():
     assert "### Forest (x10)" in md
 
 
+def test_report_multiline_strategy_block():
+    """Una estrategia multilínea se inserta tal cual (respeta su Markdown)."""
+    deck = _deck()
+    a = analyze(deck, deck_size=99, commander="Teval, the Balanced Scale")
+    strat = (
+        "## Estrategia y Plan de Juego\n\n"
+        "- **Arquetipo Principal:** Graveyard Landfall\n"
+        "- **Motor Principal:** Sacrificar tierras para triggers"
+    )
+    md = build_report(deck, a, deck_name="Mazo Test", strategy=strat)
+    assert "## Estrategia y Plan de Juego" in md
+    assert "Arquetipo Principal" in md
+    # No debe envolverse en el formato compacto de una línea.
+    assert "**Estrategia:** ##" not in md
+
+
+def test_report_single_line_strategy_compact():
+    """Una estrategia de una sola línea usa el formato compacto."""
+    deck = _deck()
+    a = analyze(deck, deck_size=99, commander="Teval, the Balanced Scale")
+    md = build_report(deck, a, deck_name="Mazo Test", strategy="Aristocrats rápido")
+    assert "**Estrategia:** Aristocrats rápido" in md
+
+
 def test_llm_report_prepends_prompt():
     """El reporte para IA antepone el bloque de instrucciones al reporte."""
     deck = _deck()
@@ -124,6 +148,8 @@ def test_llm_report_prepends_prompt():
     assert llm.startswith("# INSTRUCCIONES PARA EL MODELO DE IA")
     assert "analista competitivo de MTG Commander" in llm
     assert "Power Level estimado" in llm
+    assert "EVALUACIÓN ESTRATÉGICA DE CORTES" in llm
+    assert "Densidad de Sinergia" in llm
     # Y contiene el reporte completo a continuación.
     assert plain.strip() in llm
     assert "**Comandante:** Teval, the Balanced Scale" in llm

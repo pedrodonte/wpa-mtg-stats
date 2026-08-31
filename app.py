@@ -21,6 +21,20 @@ from modules.scryfall_client import ScryfallCache, enrich_cards
 
 BASE_DIR = Path(__file__).resolve().parent
 
+# Plantilla sugerida para el campo de estrategia (placeholder del formulario).
+STRATEGY_TEMPLATE = """## Estrategia y Plan de Juego
+
+- **Arquetipo Principal:** [Ej. Aristocrats / Graveyard Landfall / Artifact Combo]
+- **Motor Principal (Engine):** [Cómo genera ventaja el mazo.]
+- **Condiciones de Victoria (Wincons):**
+  1. *Plan A (Primario):* [...]
+  2. *Plan B (Alternativo):* [...]
+  3. *Plan C (Combo / Explosivo):* [...]
+- **Cartas Sagradas (Core / Intocables):** [3 a 6 cartas clave que nunca se cortan.]
+- **Ejes de Sinergia Críticos:**
+  - *Disparadores clave:* [...]
+  - *Combustible:* [...]"""
+
 
 def get_app_version() -> str:
     """Versión del build (APP_VERSION), formato yyyymmdd_hhmm.
@@ -163,7 +177,7 @@ def init_state() -> None:
     st.session_state.setdefault("llm_md", None)
 
 
-def run_pipeline(raw_text: str, deck_size: int) -> None:
+def run_pipeline(raw_text: str, deck_size: int, strategy: str = "") -> None:
     cards, errors, commander = parse_decklist(raw_text)
     if not cards:
         st.error("No se pudieron parsear cartas. Verifica el formato de la lista.")
@@ -174,7 +188,6 @@ def run_pipeline(raw_text: str, deck_size: int) -> None:
 
     # El nombre del mazo se deriva del comandante detectado.
     deck_name = commander or "Mi Mazo"
-    strategy = ""
 
     st.info(f"Parseadas {len(cards)} entradas · {total_cards(cards)} copias totales.")
 
@@ -224,6 +237,14 @@ def render_upload() -> None:
         placeholder="1 Sol Ring (C21) 250\n1 Karn, the Great Creator (WAR) 1\n35 Mountain",
     )
 
+    strategy = st.text_area(
+        "Estrategia y plan de juego (opcional)",
+        height=220,
+        help="Se incluye tal cual en el reporte. Admite Markdown; útil como "
+             "contexto para el análisis con IA.",
+        placeholder=STRATEGY_TEMPLATE,
+    )
+
     raw_text = ""
     if uploaded is not None:
         raw_text = uploaded.read().decode("utf-8", errors="ignore")
@@ -234,7 +255,7 @@ def render_upload() -> None:
         if not raw_text.strip():
             st.warning("Sube un archivo o pega una lista primero.")
         else:
-            run_pipeline(raw_text, int(deck_size))
+            run_pipeline(raw_text, int(deck_size), strategy.strip())
 
 
 def render_metrics(analysis) -> None:

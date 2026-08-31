@@ -160,8 +160,14 @@ def build_summary(analysis: DeckAnalysis, deck_name: str, strategy: str) -> str:
     ]
     if analysis.commander:
         header += [f"**Comandante:** {analysis.commander}", ""]
-    if strategy:
-        header += [f"**Estrategia:** {strategy}", ""]
+    if strategy and strategy.strip():
+        strat = strategy.strip()
+        # Si el usuario ya provee encabezados markdown, se respeta tal cual;
+        # si es una sola línea, se muestra en formato compacto.
+        if "\n" in strat or strat.lstrip().startswith("#"):
+            header += [strat, ""]
+        else:
+            header += [f"**Estrategia:** {strat}", ""]
     header += [
         "## 1. Resumen Ejecutivo y Métricas Estadísticas",
         "",
@@ -246,6 +252,12 @@ LLM_PROMPT_HEADER = """\
 > 2. Justifica cada corte/adición usando las métricas (PIPs, CCI, CMC, Hipergeométrica, Resiliencia).
 > 3. Entrega: Diagnóstico de Maná, Top 3 Cortes con justificación, Top 3 Adiciones \
 (formato "Carta A entra por Carta B") y Power Level estimado (1-10).
+> 4. EVALUACIÓN ESTRATÉGICA DE CORTES:
+>    - NO propongas cortar cartas simplemente por tener un CMC alto (4+) si figuran en la \
+lista de "Cartas Sagradas" o forman parte directa de los "Planes de Victoria (A/B/C)".
+>    - Al evaluar candidatos a corte, mide su "Densidad de Sinergia": una carta de CMC 2 \
+que no apoya los ejes clave debe salir antes que una carta de CMC 5 que active la \
+condición de victoria.
 
 ---
 """

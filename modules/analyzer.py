@@ -249,7 +249,16 @@ _ROLE_PATTERNS: list[tuple[str, re.Pattern, bool]] = [
     ("Proliferate", re.compile(r"proliferate", re.I), False),
     ("Charge Synergies", re.compile(r"charge counter", re.I), False),
     ("Protection / Counter", re.compile(r"hexproof|indestructible|ward|counter target spell", re.I), False),
-    ("Cost Reducers", re.compile(r"affinity for artifacts|improvise|cost \{1\} less", re.I), False),
+    ("Cost Reducers", re.compile(
+        r"\bimprovise\b"                       # Improvisar
+        r"|affinity for \w+"                    # Afinidad (por artefactos, tierras, etc.)
+        r"|convoke"                             # Convocar (ayuda a pagar coste con criaturas)
+        r"|delve"                               # Dragar (exilia del cementerio para pagar {1})
+        r"|cost(?:s)? \{\d+\}(?:/\{[wubrgcpx0-9/]+\})? less"  # "cost {N} less" (incluye híbridos)
+        r"|cost(?:s)? \{[xX]\} less"            # "cost {X} less"
+        r"|cost(?:s)? up to \{\d+\} less"       # "cost up to {N} less"
+        r"|cost(?:s)? less to cast",            # "cost less to cast" (genérico)
+        re.I), False),
     ("Karnstruct Engine", re.compile(r"create a 0/0.*construct", re.I), False),
 ]
 

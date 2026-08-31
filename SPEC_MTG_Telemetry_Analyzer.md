@@ -103,7 +103,7 @@ Categorización automatizada mediante análisis de patrones en `oracle_text` y `
 | **Proliferate** | `proliferate` |
 | **Charge Synergies** | `charge counter` |
 | **Protection / Counter**| `hexproof`, `indestructible`, `ward`, `counter target spell` |
-| **Cost Reducers** | `affinity for artifacts`, `improvise`, `cost \{1\} less` |
+| **Cost Reducers** | Improvisar (`improvise`), Afinidad (`affinity for \w+`, cualquier tipo), Convocar (`convoke`), Dragar (`delve`) y reducción de costes de maná: `cost(s) \{N\} less` (incl. híbridos), `cost(s) \{X\} less`, `cost(s) up to \{N\} less`, `cost(s) less to cast` |
 | **Karnstruct Engine** | `create a 0/0.*construct` |
 
 ---

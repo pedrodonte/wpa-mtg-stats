@@ -1,0 +1,242 @@
+1 Corpse Augur (DRC) 40
+1 Susurian Voidborn (EOE) 118
+1 Lotleth Giant (CMM) 171
+1 Leech Collector // Bloodletting (SOS) 88
+1 Swampsnare Trap (TLA) 120
+1 Darkness Descends (ECL) 97
+1 Murder (M19) 110
+1 Moment of Craving (FDN) 524
+1 Settle the Score (DOM) 103
+1 Festerleech (MKM) 85
+1 Zombie Infestation (DMR) 111
+1 Avengers: Under Siege (MSH) 205
+1 Body Launderer (SNC) 68
+1 Butcher of Malakir (LCC) 187
+1 Give In to Violence (DSK) 101
+1 Send in the Pest (SOS) 100
+1 Sanguine Bond (LTC) 208
+1 Syr Konrad, the Grim (DSC) 158
+1 Spiteful Visions (DSC) 233
+1 Lessons from Life (TMT) 155
+1 Indulgent Aristocrat (INR) 118
+1 Bloodbond Vampire (E02) 15
+1 Thirst for Identity (ECL) 79
+1 Ruinous Waterbending (TLA) 118
+1 Bastion of Remembrance (TDC) 171
+1 Vincent's Limit Break (FIN) 126
+1 Pain 101 (TMT) 69
+1 Elixir of Immortality (C21) 243
+1 Koh, the Face Stealer (TLA) 107
+1 Bloodtracker (LCC) 186
+1 Sneering Shadewriter (SOS) 101
+1 World Breaker (EOC) 112
+1 Melancholic Poet (SOS) 90
+1 Bile-Vial Boggart (ECL) 87
+1 Agents of HYDRA (MSH) 85
+1 Seymour Flux (FIN) 558
+1 Patron of the Vein (LCC) 207
+1 Moonstone Eulogist (BLC) 19
+1 Timothar, Baron of Bats (LCC) 210
+1 Centaur Vinecrasher (EOC) 94
+1 Hazel of the Rootbloom (BLC) 2
+1 Scarblade Scout (ECL) 118
+1 Uurg, Spawn of Turg (EOC) 127
+1 Loamcrafter Faun (EOC) 99
+1 Aftermath Analyst (EOC) 91
+1 Path of Ancestry (SOC) 393
+1 Daemogoth Woe-Eater (STX) 175
+1 Skycoach Conductor // All Aboard (SOS) 67
+1 Depower (MSH) 50
+1 Secret Identity (SPM) 43
+1 Quick Study (SOS) 65
+1 Chameleon, Master of Disguise (SPM) 27
+1 Ratadrabik of Urborg (DMU) 312
+1 Visions of Villainy (MSH) 120
+1 Rabid Attack (SOS) 96
+1 Echoing Deeps (LCI) 346
+1 Splinter, the Mentor (TMC) 3
+1 Arnim Zola, Bio-Fanatic (MSH) 86
+1 Perforating Artist (FDN) 124
+1 Run Behind (SOS) 66
+1 Battle Hymn (AVR) 128
+1 Duty Beyond Death (SOA) 4
+1 Team Tactics (MSH) 155
+1 Feed the Flames (ECL) 137
+1 Extinguisher Battleship (EOE) 242
+1 Golden Guardian // Gold-Forge Garrison (RIX) 179
+1 Blitzball (FIN) 254
+1 Arcane Signet (EOC) 53
+1 White Lotus Tile (TLA) 262
+1 Rapier Wit (SOS) 28
+1 Dictate of Heliod (C15) 68
+1 Zuko's Exile (TLA) 3
+1 Tanufel Rimespeaker (ECL) 77
+1 Monoist Sentry (EOE) 111
+1 Diregraf Ghoul (FDN) 171
+1 Mai, Scornful Striker (TLA) 109
+1 Common Crook (SPM) 53
+1 Timeline Culler (EOE) 121
+1 Blossombind (ECL) 45
+1 Order of Sacred Dusk (LCC) 97
+1 Soul-Shackled Zombie (FDN) 70
+1 Hungry Ghoul (FDN) 62
+1 Sanitarium Skeleton (INR) 129
+1 Goldvein Pick (FDN) 253
+1 Black Cat (M15) 86
+1 Guul Draz Overseer (BFZ) 112
+1 Riveteers Overlook (ECC) 162
+1 Josu Vess, Lich Knight (MOC) 253
+1 Behold the Sinister Six! (SPM) 51
+1 Marionette Master (AFC) 102
+1 Mornsong Aria (ECL) 111
+1 Evil Reawakened (FIN) 98
+1 Alesha, Who Laughs at Fate (FDN) 115
+1 Hazel's Brewmaster (BLC) 17
+1 Swarmyard Massacre (BLC) 20
+1 Insatiable Frugivore (BLC) 18
+1 Tymaret, the Murder King (THS) 207
+1 Command the Dreadhorde (WAR) 82
+1 Lightning, Security Sergeant (FIN) 560
+1 Suplex (FIN) 164
+1 Escape Tunnel (EOC) 157
+1 Maestros Theater (EOC) 167
+1 Trading Post (CM2) 225
+1 Phylactery Lich (M19) 113
+1 Aang's Journey (TLA) 1
+1 Tonberry (FIN) 122
+1 Myriad Landscape (EOC) 169
+1 Demolition Field (FDN) 687
+1 Field of Ruin (XLN) 254
+1 Volatile Fault (M3C) 407
+1 Warped Landscape (C18) 291
+1 Klaw, Sonic Subjugator (MSH) 103
+1 Changeling Wayfinder (ECL) 1
+1 Nadier's Nightblade (BLC) 184
+1 Undying Malice (FDN) 528
+1 Project Deathlok Soldier (MSH) 109
+1 Vampire Nighthawk (FDN) 186
+1 Negate (TMT) 47
+1 Gideon's Sacrifice (MKC) 68
+1 Indulging Patrician (TDC) 292
+1 Carmen, Cruel Skymarcher (LCC) 5
+1 Tainted Wood (DSC) 305
+1 Great Arashin City (TDM) 257
+1 Cauldron of Essence (SOS) 179
+1 We Say Thee Nay! (MSH) 82
+1 Exploration Broodship (EOC) 14
+1 Preposterous Proportions (FDN) 109
+1 Golgari Rot Farm (ECC) 151
+1 End-Raze Forerunners (BLC) 214
+1 Teacher's Pest (SOS) 238
+1 Pact of the Serpent (LCC) 206
+1 Secret Tunnel (TLA) 278
+1 Evendo, Waking Haven (EOE) 253
+1 Manamorphose (SPG) 142
+1 Living End (TSR) 121
+1 Starfield Shepherd (EOE) 37
+1 Snakeskin Veil (CMM) 323
+1 Call to the Feast (2X2) 190
+1 Queen's Commission (XLN) 29
+1 Redemption Choir (LCC) 74
+1 Liliana of the Veil (UMA) 104
+1 Svella, Ice Shaper (KHM) 230
+1 Vraska Joins Up (OTJ) 236
+1 Rhys, the Evermore (ECL) 32
+1 Swift Reconfiguration (NEC) 10
+1 Personify (ECL) 28
+1 Tam, Mindful First-Year (ECL) 245
+1 Fatal Fissure (TLA) 97
+1 Grim Backwoods (SOC) 377
+1 Festering Thicket (SOC) 371
+1 Second Harvest (BLC) 123
+1 Explore (BLC) 216
+1 Postmortem Professor (SOS) 93
+1 Vernal Fen (SOC) 419
+1 Mutavault (CLB) 903
+1 Farseek (EOC) 50
+1 Metallic Mimic (PZA) 16
+1 Weather Maker (TMT) 182
+1 Trystan's Command (ECL) 247
+1 Unbury (ECL) 123
+1 Eumidian Hatchery (EOC) 20
+1 Anticausal Vestige (EOE) 1
+1 Quill-Blade Laureate // Twofold Intent (SOS) 27
+1 Firdoch Core (ECL) 255
+1 Thunderbolts Conspiracy (MSH) 117
+1 Super-Skrull (MSH) 115
+1 Scathing Shadelock // Venomous Words (SOS) 98
+1 Northern Air Temple (TLA) 111
+1 Evolving Wilds (EOC) 158
+1 Sigiled Sword of Valeron (MOC) 377
+1 Gisa, the Hellraiser (OTJ) 288
+1 Martyr of Dusk (LCC) 132
+1 Vampire Aristocrat (MM3) 86
+1 Bloodline Necromancer (LCC) 185
+1 Elas il-Kor, Sadistic Pilgrim (DMU) 297
+2 Canyon Crawler (TLA) 90
+2 Dread Return (CMM) 153
+1 Keep Out (ECL) 19
+1 Night's Whisper (EOC) 85
+1 Red Hulk (MSH) 329
+1 Retreat to Hagra (C18) 116
+1 Havoc Jester (CLU) 138
+1 Zektar Shrine Expedition (ZEN) 155
+1 Pyretic Ritual (M11) 153
+1 Glen Elendra Guardian (ECL) 51
+1 Dual-Sun Technique (EOE) 13
+1 Judith, the Scourge Diva (CMM) 341
+1 Summon: Fenrir (FIN) 203
+1 Juri, Master of the Revue (EOC) 119
+1 Zoyowa Lava-Tongue (LCI) 245
+1 Ziatora, the Incinerator (M3C) 279
+1 Lashwhip Predator (EOE) 195
+1 Lightless Evangel (EOE) 109
+1 Falkenrath Noble (DSC) 140
+1 Elegy Acolyte (EOE) 97
+1 Deathless Pilot (DFT) 82
+1 Liliana, Death's Majesty (DRC) 94
+1 Barkform Harvester (BLB) 243
+1 Spore Cloud (FEM) 72b
+1 Urza's Cave (MH3) 234
+1 Robot Domination (MSH) 111
+1 The Last Ronin (TMT) 154
+1 Dusk Legion Sergeant (LCC) 80
+1 Demon of Catastrophes (PM19) 91 *F*
+1 Bulk Up (SOA) 40
+1 Brotherhood's End (SOA) 39
+1 Deadly Dispute (TDC) 177
+1 Champion of Dusk (LCC) 188
+1 Sorin, Grim Nemesis (SOI) 251
+1 Vona, Butcher of Magan (LCC) 293
+1 Woe Strider (SOC) 231
+1 Pitiless Carnage (OTJ) 98
+1 Pointed Discussion (VOW) 126
+1 Risky Research (SPM) 62
+1 Idol of Oblivion (TDC) 319
+1 Vanguard of the Rose (LCI) 42
+1 Marketback Walker (DFT) 235
+1 Marvin, Murderous Mimic (DSK) 253
+1 Academy Manufactor (BLC) 264
+1 Chitterspitter (BLC) 211
+1 Talisman of Resilience (DSC) 255
+1 Golgari Signet (DSC) 246
+1 Umbral Mantle (SHM) 267
+1 Detection Tower (M19) 249
+1 Sabotender (FIN) 153
+1 Zombify (SOA) 36
+1 Zulaport Cutthroat (SOC) 233
+1 Arc Reactor (MSH) 243
+1 Illusion Spinners (ECL) 55
+1 Giant-Sized Flying Ant (MSH) 56
+1 The Earth Crystal (FIN) 184
+1 Thousand Moons Smithy // Barracks of the Thousand (LCI) 39
+1 Gaze of Granite (EOC) 116
+1 Binding the Old Gods (EOC) 52
+1 Pest Infestation (SOC) 282
+1 Horizon Explorer (EOC) 15
+1 Shared Roots (TLA) 196
+1 Desperate Ritual (MMA) 110
+1 Nested Shambler (BLC) 185
+1 Entropic Battlecruiser (EOE) 99
+1 Shock (M20) 160
+3 Morbid Opportunist (SOC) 219

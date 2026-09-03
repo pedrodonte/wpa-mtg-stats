@@ -1,0 +1,342 @@
+1 Cache Grab (BLB) 167
+1 Wren's Run Packmaster (PLRW) 244★ *F*
+1 Steel Leaf Champion (DOM) 182
+1 Garruk, Cursed Huntsman (BLC) 99
+1 Titania's Chosen (CMA) 158
+1 Elvish Champion (DPA) 60
+1 Ezuri, Renegade Leader (CMA) 108
+1 Another Chance (LCI) 90
+1 Tannuk, Steadfast Second (EOE) 162
+1 Prodigious Growth (M19) 194
+1 Reach the Horizon (FIN) 195
+1 Arcane Omens (SOS) 73
+1 Tender Wildguide (BLB) 196
+1 Royal Treatment (SOA) 56
+1 Thoughtweft Charge (ECL) 198
+1 Blitzball Shot (FIN) 176
+1 Verdant Command (MH2) 359
+1 Terrific Team-Up (SPM) 120
+1 Nourish (DST) 78
+1 Chatter of the Squirrel (2XM) 157
+1 Saproling Symbiosis (DMR) 175
+1 Wolf's Quarry (ELD) 184
+1 Tend the Sprigs (ECL) 197
+1 Giant Opportunity (ELD) 159
+1 Chocobo Kick (FIN) 178
+1 Rapid Rescue (MSH) 181
+1 Loki Laufeyson (MSH) 143
+1 Worldsoul's Rage (EOC) 130
+1 Escape to the Wilds (EOC) 115
+1 Grub's Command (ECL) 228
+1 Grub, Storied Matriarch // Grub, Notorious Auntie (ECL) 105
+1 Wisecrack (SPM) 98
+1 Molten Man, Inferno Incarnate (SPM) 84
+1 Truck Toss (MSH) 157
+1 Vibrant Outburst (SOS) 240
+1 Vulshok Sorcerer (DDI) 50
+1 Anger (SOC) 235
+1 Surreal Memoir (2X2) 127
+1 Llanowar Tribe (KHC) 66
+1 Thornvault Forager (BLB) 197
+1 Gysahl Greens (FIN) 190
+1 Warden of the Grove (TDM) 166
+1 Gala Greeters (SNC) 450 *F*
+1 Tempt with Discovery (C19) 183
+1 Mona Lisa, Science Geek (TMT) 123
+1 Elemental Mascot (SOS) 185
+1 Elemental (TSOS) 3
+1 Visionary's Dance (SOS) 242
+1 Sorceress's Schemes (FIN) 159
+1 Elemental Appeal (ZEN) 123
+1 Duel Tactics (SOS) 112
+1 Volcanic Dragon (CMR) 207
+1 Impetuous Devils (EMN) 132
+1 Burst Lightning (FDN) 192
+1 Lightning Strike (XLN) 149
+1 Freya Crescent (FIN) 138
+1 Bloodrage Brawler (AKH) 121
+1 Cinder Strike (ECL) 131
+1 Warcry Phoenix (DOM) 150
+1 Samurai's Katana (FIN) 154
+1 Remnant Elemental (EOE) 155
+1 Skyclave Squid (ZNR) 82
+1 Monstrous Rage (SOA) 45
+1 Havengul Vampire (CN2) 164
+1 Riverguard's Reflexes (ECL) 33
+1 Chainer, Nightmare Adept (MH2) 289
+1 Charging Strifeknight (SOS) 110
+1 Crashing Wave (TLA) 47
+1 Browbeat (A25) 123
+1 Snooping Page (SOS) 227
+1 Imperious Inkmage (SOS) 195
+1 Rubble Rouser (SOS) 128
+1 Blazing Crescendo (MSH) 125
+1 Noise Marine (40K) 82
+1 Stirring Hopesinger (SOS) 35
+1 Rhys, the Evermore (ECL) 32
+1 Dependable Quinjet (MSH) 246
+1 Web Up (MSH) 41
+1 Special Move (TMC) 26
+1 Faithless Looting (SOC) 244
+1 Firion, Wild Rose Warrior (FIN) 386
+1 Sear (ECL) 154
+1 Gladiolus Amicitia (FIN) 224
+1 Vexing Devil (INR) 178
+1 Lasting Tarfire (ECL) 149
+1 Creeping Mold (10E) 258
+1 Unbury (ECL) 123
+1 Esper Origins // Summon: Esper Maduin (FIN) 185
+1 Evolution Witness (MH3) 151
+1 Satyr Wayfinder (EOC) 106
+1 Groundskeeper (EOC) 97
+1 Rancor (2X2) 156
+1 Giant Inheritance (WOC) 17
+1 Enduring Vitality (DSK) 176
+1 Return of the Wildspeaker (ECC) 115
+1 Famished Worldsire (EOE) 182
+1 Fungal Rebirth (CLU) 163
+1 Scavenging Ooze (FDN) 232
+1 Baloth Prime (EOC) 13
+1 Grow Extra Arms (SPM) 101
+1 Splendid Reclamation (EOC) 108
+1 Eternal Witness (CM2) 136
+1 Bow of Nylea (THS) 153
+1 Skyshroud Claim (EOC) 107
+1 Heartbeat of Spring (TLE) 42
+1 Kodama's Reach (OTC) 196
+1 Giant Growth (FDN) 223
+1 Scute Swarm (ZNR) 308
+1 Squirrel Mob (MH2) 286
+1 Oracle's Restoration (SOS) 156
+1 Cloakwood Hermit (CLB) 221
+1 Wolfwillow Haven (BLC) 246
+1 Essenceknit Scholar (SOS) 187
+1 Welcome to Sweettooth (WOE) 198
+1 Forest (EOE) 276
+1 Bone Sabres (40K) 88
+1 Terrasymbiosis (EOE) 210
+1 Loading Zone (EOE) 196
+1 Terrapact Intimidator (EOE) 164
+1 Wirewood Symbiote (MH3) 288
+1 Slavering Branchsnapper (DSK) 198
+1 Springbloom Druid (TDC) 271
+1 Quirion Ranger (MH2) 285
+1 Scurry Oak (MH2) 172
+1 Raiding Schemes (ECL) 239
+1 Unlucky Cabbage Merchant (TLA) 201
+1 Spire Tracer (GTC) 135
+1 Spider-Ham, Peter Porker (PW25) 10
+1 Llanowar Elves (FDN) 227
+1 Yeva, Nature's Herald (RVR) 162
+1 Elvish Visionary (CMR) 223
+1 Meren of Clan Nel Toth (TDC) 297
+1 Noxious Newt (SOS) 155
+1 Virulent Emissary (ECL) 202
+1 Davriel, Rogue Shadowmage (WAR) 83
+1 Faunsbane Troll (WOE) 203
+1 Squirrel Nest (BLC) 239
+1 Squirrel Sovereign (BLC) 240
+1 Transdimensional Bovine (TMT) 134
+1 Chatterstorm (BLC) 210
+1 Blessings of Nature (AVR) 168
+1 For the Common Good (BLB) 172
+1 Long Feng, Grand Secretariat (TLA) 233
+1 Giant Growth (SOA) 52
+1 Sylvan Anthem (MH2) 176
+1 Gladehart Cavalry (DDU) 11
+1 Michelangelo's Technique (TMT) 239
+1 Bosco, Just a Bear (TLE) 132
+1 Glissa, Herald of Predation (MOM) 226
+1 Pest Mascot (SOS) 209
+1 Belbe, Corrupted Observer (CMR) 270
+1 High Perfect Morcant (ECL) 229
+1 Beifong's Bounty Hunters (TLA) 209
+1 Oracle of Mul Daya (EOC) 102
+1 Dwynen, Gilt-Leaf Daen (FDN) 217
+1 Leaf-Crowned Visionary (DMU) 167
+1 Taster of Wares (ECL) 121
+1 Ambitious Augmenter (SOS) 140
+1 Bristlebane Battler (ECL) 168
+1 Generous Stray (GRN) 129
+1 Essence Warden (CMA) 106
+1 Prosperous Innkeeper (BLC) 121
+1 Rosethorn Acolyte // Seasonal Ritual (ELD) 174
+1 Wolf-Skull Shaman (MOR) 140
+1 Crypt Incursion (DGM) 23
+1 Shopkeeper's Bane (SOS) 159
+1 Summon: Fat Chocobo (FIN) 202
+1 Honored Dreyleader (BLB) 178
+1 Rootcast Apprenticeship (BLC) 32
+1 Haliya, Ascendant Cadet (EOE) 218
+1 Unforgiving Aim (ECL) 200
+1 Scouring Swarm (EOC) 16
+1 Arbor Elf (A25) 160
+1 Torgal, A Fine Hound (FIN) 345
+1 Fyndhorn Elves (CMR) 228
+1 Elvish Mystic (SOC) 266
+1 Eumidian Wastewaker (EOC) 8
+1 Bird (TFIN) 17
+1 Claim the Kingdom (MSH) 163
+1 Multani, Yavimaya's Avatar (EOC) 100
+1 Guardian Project (RVR) 146
+1 Elfsworn Giant (FDN) 103
+1 Dwynen's Elite (ORI) 173
+1 Lys Alana Dignitary (ECL) 180
+1 Sylvan Messenger (ORI) 199
+1 Branchblight Stalker (ONE) 160
+1 Drove of Elves (CMA) 101
+1 Civic Wayfinder (DDR) 5
+1 Architect of the Untamed (DRC) 108
+1 Lys Alana Huntmaster (KHC) 67
+1 Priest of Titania (MH3) 286
+1 Balamb T-Rexaur (FIN) 173
+1 Wood Elves (LTC) 263
+1 Jaspera Sentinel (KHM) 178
+1 Glittermonger (SNC) 149
+1 Trystan's Command (ECL) 247
+1 Creakwood Safewright (ECL) 96
+1 Morcant's Eyes (ECL) 185
+1 Iron-Shield Elf (ECL) 108
+1 Shaman of the Pack (KHC) 92
+1 Blossoming Defense (ECL) 167
+1 Harrow (OTC) 194
+1 Kodama's Reach (ECC) 113
+1 Cultivate (ECC) 103
+1 Elvish Harbinger (EVG) 4
+1 Heritage Druid (EMA) 171
+1 Elvish Clancaller (M19) 179
+1 Bastion of Remembrance (TDC) 171
+1 Moon-Vigil Adherents (ECL) 184
+1 Moonglove Extractor (ECL) 109
+1 Vinebred Brawler (ECL) 201
+1 Sylvan Ranger (WOC) 134
+1 Jagged-Scar Archers (KHC) 65
+1 Gaea's Herald (8ED) 252
+1 Canopy Tactician (KHM) 378
+1 Devoted Druid (SHM) 110
+1 Taunting Elf (ONS) 290
+1 Marwyn, the Nurturer (KHC) 68
+1 Frog-Squirrels (TLE) 251
+1 Primeval Titan (IMA) 183
+1 Curious Forager (BLB) 169
+1 Gilt-Leaf's Embrace (ECL) 177
+1 Great Forest Druid (ECL) 178
+1 Gene Pollinator (EOE) 186
+1 Cactuar (FIN) 177
+1 Doran, Besieged by Time (ECL) 215
+1 Bogwater Lumaret (SOS) 177
+1 Hydra's Growth (THB) 172
+1 Wolverine, Fierce Fighter (MSH) 240
+1 Ajani's Comrade (AER) 187
+1 Gathering Stone (ECL) 257
+1 Exdeath, Void Warlock // Neo Exdeath, Dimension's End (FIN) 220
+1 Supportive Parents (SPM) 119
+1 Kraven, Proud Predator (SPM) 132
+1 Spry and Mighty (ECL) 329
+1 Earl of Squirrel (PUST) 108 *F*
+1 Eumidian Terrabotanist (EOE) 180
+1 Sidequest: Raise a Chocobo // Black Chocobo (FIN) 201
+1 Wood Elves (MOC) 316
+1 Voracious Hydra (M20) 200
+1 Nightmare Sower (ECL) 114
+1 Immaculate Magistrate (CMR) 234
+1 Dragon Sniper (TDM) 139
+1 Michelangelo, Mutant BFF (TMT) 120
+1 Thragtusk (NCC) 316
+1 Elemental Teachings (TLA) 178
+1 Training Regimen (MSH) 192
+1 Garruk, Primal Hunter (C21) 190
+1 Beledros Witherbloom (SOC) 296
+1 Lifecraft Cavalry (AER) 113
+1 Rockalanche (TLA) 192
+1 Infirmary Healer // Stream of Life (SOS) 152
+1 Atmospheric Greenhouse (EOE) 171
+1 Jumbo Cactuar (FIN) 191
+1 Mutable Explorer (ECL) 186
+1 Gilded Goose (SOC) 269
+1 Lathril, Blade of the Elves (FDN) 242
+1 Beast Whisperer (CLU) 158
+1 Shamanic Revelation (BLC) 237
+1 Circle of Dreams Druid (AFR) 176
+1 Elvish Piper (UDS) 104
+1 Llanowar Elves (M19) 314
+1 Sazh's Chocobo (FIN) 200
+1 Freyalise, Llanowar's Fury (CMM) 290
+1 Fauna Shaman (UMA) 164
+1 Sakura-Tribe Elder (CLB) 832
+1 Night of the Sweets' Revenge (WOE) 178
+1 Professor Dellian Fel (SOS) 214
+1 Ninja Pizza (TMC) 32
+1 Beastmaster Ascension (BLC) 118
+1 Sapling Nursery (ECL) 192
+1 Witherbloom, the Balancer (SOS) 245
+1 Camellia, the Seedmiser (BLB) 207
+1 The Odd Acorn Gang (BLC) 7 *F*
+1 Ravenous Squirrel (BLC) 258
+1 Vinereap Mentor (BLB) 238
+1 Kalonian Hydra (BLC) 226
+1 Garruk's Uprising (ECC) 109
+1 Host of the Hereafter (TDM) 193
+1 Scurry of Squirrels (BLC) 33
+1 Deep Forest Hermit (BLC) 213
+1 Emil, Vastlands Roamer (SOS) 146
+1 Ouroboroid (EOE) 201
+1 Gourmand's Talent (BLC) 31
+1 Swiftfoot Boots (CLB) 339
+1 The Serpent Society (MSH) 226
+1 Augur of Autumn (EOC) 92
+1 Oracle of Mul Daya (2X2) 370
+1 Blood Artist (VOC) 119
+1 Viscera Seer (SOC) 229
+1 Marionette Apprentice (MH3) 100
+1 Ygra, Eater of All (BLB) 241
+1 Hellcat, Undying Vigilante (MSH) 170
+1 Glittering Stockpile (OTC) 167
+1 Harmonious Grovestrider (EOE) 189
+1 Pestbrood Sloth (SOS) 157
+1 Arasta of the Endless Web (TDC) 244
+1 The Legend of Kyoshi // Avatar Kyoshi (TLA) 186
+1 Shared Roots (TLA) 196
+1 Springbloom Druid (SOC) 287
+1 Moraug, Fury of Akoum (EOC) 89
+1 Tifa Lockhart (FIN) 206
+1 Stomping Ground (EOE) 258
+1 Dragonskull Summit (DSC) 271
+1 Cinder Glade (ECC) 146
+1 Rampaging Baloths (EOC) 104
+1 Karplusan Forest (EOC) 164
+1 Korvold, Fae-Cursed King (EOC) 120
+1 Omnath, Locus of Rage (ECC) 129
+1 Twilight Mire (SOC) 418
+1 Awaken the Woods (BRO) 170
+1 Cabaretti Courtyard (EOC) 151
+1 Roiling Regrowth (EOC) 105
+1 Beast Within (EOC) 93
+1 Assassin's Trophy (2X2) 175
+1 Sol Ring (M3C) 305
+1 Blasphemous Act (ECC) 89
+1 Szarel, Genesis Shepherd (EOC) 4
+1 Rootbound Crag (TMC) 72
+1 Tannuk, Memorial Ensign (EOE) 233
+1 Drill Too Deep (EOE) 133
+1 Harrow (EOC) 98
+1 Soul of Windgrace (EOC) 126
+1 Tear Asunder (EOC) 109
+1 Hearthhull, the Worldseed (EOC) 1
+1 Training Compound (MSH) 275
+1 Mayhem Devil (EOC) 121
+1 Evendo Brushrazer (EOC) 10
+2 End-Blaze Epiphany (ECL) 134
+2 Call the Mountain Chocobo (FIN) 131
+2 Brimstone Volley (2XM) 120
+2 Edge Rover (EOE) 179
+2 Prismatic Undercurrents (ECL) 189
+2 Imperious Perfect (KHC) 64
+2 Dawnhand Eulogist (ECL) 99
+2 Ant-Man's Army (MSH) 161
+2 Elvish Archdruid (FDN) 219
+3 Mazirek, Kraul Death Priest (SOC) 319
+2 Eclipsed Elf (ECL) 336
+2 Eclipsed Elf (ECL) 218
+2 Trystan, Callous Cultivator // Trystan, Penitent Culler (ECL) 199
+2 Earth Kingdom General (TLA) 173

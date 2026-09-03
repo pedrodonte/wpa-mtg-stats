@@ -15,6 +15,7 @@ import traceback
 MODULES = [
     "test.test_parser",
     "test.test_analyzer_report",
+    "test.test_collection",
     "test.test_examples_input",
     "test.test_export_filename",
 ]

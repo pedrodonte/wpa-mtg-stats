@@ -33,6 +33,10 @@ _ATTRIBUTES = (
     "produced_mana",
     "power",
     "toughness",
+    "rarity",
+    "set",
+    "set_name",
+    "collector_number",
 )
 
 
@@ -86,6 +90,10 @@ def _extract_attributes(raw: dict) -> dict:
         "power": raw.get("power"),
         "toughness": raw.get("toughness"),
         "price_usd": price,
+        "rarity": raw.get("rarity") or "",
+        "set": raw.get("set") or "",
+        "set_name": raw.get("set_name") or "",
+        "collector_number": raw.get("collector_number") or "",
     }
 
 
@@ -104,6 +112,10 @@ class EnrichedCard:
     power: str | None = None
     toughness: str | None = None
     price_usd: float | None = None
+    rarity: str = ""
+    set: str = ""
+    set_name: str = ""
+    collector_number: str = ""
     found: bool = True
 
     @property
@@ -250,6 +262,10 @@ def enrich_cards(
                 power=attrs.get("power"),
                 toughness=attrs.get("toughness"),
                 price_usd=attrs.get("price_usd"),
+                rarity=attrs.get("rarity", ""),
+                set=attrs.get("set", ""),
+                set_name=attrs.get("set_name", ""),
+                collector_number=attrs.get("collector_number", ""),
                 found=True,
             )
         )

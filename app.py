@@ -15,6 +15,14 @@ from pathlib import Path
 import streamlit as st
 
 from modules.analyzer import COLOR_NAMES, COLORS, analyze
+from modules.collection import (
+    BinderFile,
+    build_collection_analysis,
+    build_collection_llm_report,
+    build_collection_report,
+    collection_export_filename,
+    parse_binders,
+)
 from modules.parser import parse_decklist, total_cards
 from modules.report_builder import build_llm_report, build_report
 from modules.scryfall_client import ScryfallCache, enrich_cards
@@ -175,6 +183,13 @@ def init_state() -> None:
     st.session_state.setdefault("deck_name", "Mi Mazo")
     st.session_state.setdefault("commander", None)
     st.session_state.setdefault("llm_md", None)
+    # Vista activa: "deck" (análisis de mazo) o "collection".
+    st.session_state.setdefault("view", "deck")
+    # Estado del análisis de colección.
+    st.session_state.setdefault("collection_analysis", None)
+    st.session_state.setdefault("collection_md", None)
+    st.session_state.setdefault("collection_llm_md", None)
+    st.session_state.setdefault("collection_filenames", [])
 
 
 def run_pipeline(raw_text: str, deck_size: int, strategy: str = "") -> None:
@@ -215,6 +230,59 @@ def run_pipeline(raw_text: str, deck_size: int, strategy: str = "") -> None:
     st.session_state.commander = commander
     progress.empty()
     log.empty()
+
+
+def run_collection_pipeline(binders: list[BinderFile]) -> None:
+    """Ingesta multi-contenedor → enriquecimiento → análisis de colección."""
+    inputs, locations, errors = parse_binders(binders)
+    if not inputs:
+        st.error("No se pudieron parsear cartas de los archivos subidos.")
+        return
+    if errors:
+        with st.expander(f"⚠️ {len(errors)} línea(s) no reconocida(s)"):
+            st.code("\n".join(errors))
+
+    containers = [b.container for b in binders]
+    st.info(
+        f"{len(binders)} contenedor(es) · {len(inputs)} cartas únicas · "
+        f"{sum(sum(v.values()) for v in locations.values())} copias."
+    )
+
+    progress = st.progress(0.0, text="Iniciando…")
+    log = st.empty()
+
+    def cb(frac: float, msg: str) -> None:
+        progress.progress(frac, text=msg)
+        log.caption(msg)
+
+    cache = ScryfallCache()
+    enriched, not_found = enrich_cards(inputs, cache=cache, progress_cb=cb)
+    progress.progress(1.0, text="Analizando colección…")
+
+    analysis = build_collection_analysis(
+        enriched, inputs, locations, containers, not_found=not_found
+    )
+    title = (
+        f"Colección MTG · {containers[0]}"
+        if len(containers) == 1
+        else f"Colección MTG · {len(containers)} contenedores"
+    )
+    report_md = build_collection_report(analysis, title=title)
+    llm_md = build_collection_llm_report(analysis, title=title)
+
+    st.session_state.collection_analysis = analysis
+    st.session_state.collection_md = report_md
+    st.session_state.collection_llm_md = llm_md
+    st.session_state.collection_filenames = [b.filename for b in binders]
+    progress.empty()
+    log.empty()
+
+
+def reset_collection() -> None:
+    st.session_state.collection_analysis = None
+    st.session_state.collection_md = None
+    st.session_state.collection_llm_md = None
+    st.session_state.collection_filenames = []
 
 
 # --------------------------------------------------------------------------- #
@@ -460,6 +528,121 @@ def _export_filename(name: str, now: datetime | None = None) -> str:
 
 
 # --------------------------------------------------------------------------- #
+# Vista de colección
+# --------------------------------------------------------------------------- #
+def render_collection_upload() -> None:
+    st.subheader("1 · Carga tus contenedores")
+    st.caption(
+        "Sube uno o varios .txt exportados desde ManaBox (una carpeta o caja por "
+        "archivo). El nombre del archivo se usa como nombre del contenedor físico."
+    )
+
+    uploaded = st.file_uploader(
+        "Archivos .txt de ManaBox (multi-selección)",
+        type=["txt"],
+        accept_multiple_files=True,
+    )
+
+    if st.button("📦 Analizar colección", type="primary", use_container_width=True):
+        if not uploaded:
+            st.warning("Sube al menos un archivo .txt primero.")
+            return
+        binders = [
+            BinderFile(
+                filename=f.name,
+                raw_text=f.read().decode("utf-8", errors="ignore"),
+            )
+            for f in uploaded
+        ]
+        run_collection_pipeline(binders)
+
+
+def render_collection_results() -> None:
+    analysis = st.session_state.collection_analysis
+    report_md = st.session_state.collection_md
+    if analysis is None or report_md is None:
+        return
+
+    st.subheader("2 · Resumen de la colección")
+    c1, c2, c3 = st.columns(3)
+    c1.metric("Cartas únicas", analysis.total_unique)
+    c2.metric("Copias totales", analysis.total_copies)
+    c3.metric("Valor USD", f"${analysis.total_value_usd:.0f}")
+
+    if analysis.not_found:
+        with st.expander(f"⚠️ {len(analysis.not_found)} carta(s) no encontrada(s)"):
+            st.code("\n".join(analysis.not_found))
+
+    tab_dist, tab_cont, tab_roles, tab_md = st.tabs(
+        ["📊 Repartos", "📦 Contenedores", "🎯 Roles Tácticos", "📄 Vista Previa MD"]
+    )
+    with tab_dist:
+        st.markdown("#### Reparto por Color")
+        color_rows = {
+            COLOR_NAMES[c]: analysis.by_color.get(c, 0)
+            for c in COLORS
+            if analysis.by_color.get(c, 0) > 0
+        }
+        if color_rows:
+            st.bar_chart(color_rows, use_container_width=True)
+        st.markdown("#### Reparto por Tipo")
+        st.bar_chart(analysis.by_type, use_container_width=True)
+        st.markdown("#### Curva de Maná")
+        st.bar_chart(
+            {"Cartas": analysis.deck_analysis.curve.buckets},
+            use_container_width=True,
+        )
+    with tab_cont:
+        for cont, copies in sorted(
+            analysis.by_container.items(), key=lambda kv: kv[1], reverse=True
+        ):
+            st.metric(cont, f"{copies} copias")
+    with tab_roles:
+        roles = analysis.deck_analysis.roles
+        if not roles.counts:
+            st.info("No se detectaron roles tácticos por heurística.")
+        else:
+            for role, count in sorted(
+                roles.counts.items(), key=lambda kv: kv[1], reverse=True
+            ):
+                with st.expander(f"{role} — {count} copias"):
+                    st.write(", ".join(roles.cards_by_role.get(role, [])))
+    with tab_md:
+        st.markdown(report_md)
+
+    st.divider()
+    st.subheader("3 · Exportar")
+    copy_button(report_md, "📋 Copiar catálogo", key="coll_report")
+    llm_md = st.session_state.get("collection_llm_md") or report_md
+    copy_button(llm_md, "🤖 Copiar con directiva Zero-Buy (IA)", key="coll_llm")
+    st.caption(
+        "La versión Zero-Buy instruye al LLM a proponer mejoras usando solo "
+        "cartas de tu colección."
+    )
+
+    st.download_button(
+        "⬇️ Descargar catálogo (.md)",
+        data=report_md.encode("utf-8"),
+        file_name=collection_export_filename(
+            st.session_state.get("collection_filenames") or ["coleccion"]
+        ),
+        mime="text/markdown",
+        use_container_width=True,
+    )
+
+    st.divider()
+    if st.button("🔄 Analizar otra colección", use_container_width=True):
+        reset_collection()
+        st.rerun()
+
+
+def render_collection_view() -> None:
+    render_collection_upload()
+    st.divider()
+    render_collection_results()
+
+
+# --------------------------------------------------------------------------- #
 # Main
 # --------------------------------------------------------------------------- #
 def main() -> None:
@@ -473,9 +656,33 @@ def main() -> None:
         f"· versión {get_app_version()}"
     )
 
-    render_upload()
+    # Navegación superior entre modos de análisis.
+    nav_deck, nav_coll = st.columns(2)
+    with nav_deck:
+        if st.button(
+            "🎯 Análisis de Mazo",
+            use_container_width=True,
+            type="primary" if st.session_state.view == "deck" else "secondary",
+        ):
+            st.session_state.view = "deck"
+            st.rerun()
+    with nav_coll:
+        if st.button(
+            "📦 Análisis de Colección",
+            use_container_width=True,
+            type="primary" if st.session_state.view == "collection" else "secondary",
+        ):
+            st.session_state.view = "collection"
+            st.rerun()
+
     st.divider()
-    render_results()
+
+    if st.session_state.view == "collection":
+        render_collection_view()
+    else:
+        render_upload()
+        st.divider()
+        render_results()
 
 
 if __name__ == "__main__":

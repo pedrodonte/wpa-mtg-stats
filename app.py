@@ -45,20 +45,35 @@ STRATEGY_TEMPLATE = """## Estrategia y Plan de Juego
 
 
 def get_app_version() -> str:
-    """Versión del build (APP_VERSION), formato yyyymmdd_hhmm.
+    """Versión del build (formato yyyymmdd_hhmm).
 
-    Prioriza la variable de entorno; si no está, la lee del `.env` del
-    proyecto. Devuelve 'dev' si no hay ninguna definida.
+    Cascada de resolución:
+      1. Variable de entorno ``APP_VERSION`` (override en despliegue).
+      2. Archivo ``.env`` del proyecto (solo local; no versionado).
+      3. ``modules/_version.py`` (valor versionado en git; viaja con el código).
+      4. ``'dev'`` si no hay ninguna.
     """
     version = os.environ.get("APP_VERSION")
     if version:
         return version
+
     env_file = BASE_DIR / ".env"
     if env_file.exists():
         for line in env_file.read_text(encoding="utf-8").splitlines():
             line = line.strip()
             if line.startswith("APP_VERSION="):
-                return line.split("=", 1)[1].strip().strip('"').strip("'") or "dev"
+                value = line.split("=", 1)[1].strip().strip('"').strip("'")
+                if value:
+                    return value
+
+    try:
+        from modules._version import __version__
+
+        if __version__:
+            return __version__
+    except ImportError:
+        pass
+
     return "dev"
 
 # --------------------------------------------------------------------------- #

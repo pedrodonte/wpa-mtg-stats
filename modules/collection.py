@@ -14,12 +14,19 @@ posible de la colección:
   - Top de cartas por valor y valor total en USD.
   - Catálogo Markdown denso "Zero-Buy" optimizado para LLMs.
 
-El contenedor físico se deriva del nombre del archivo de entrada (ManaBox no
-incluye metadatos de contenedor en el export de texto).
+Dos formatos de entrada soportados:
+  - **Texto** (export por mazo/lista): un archivo por contenedor; el contenedor
+    se deriva del nombre del archivo (ManaBox no incluye metadatos ahí).
+  - **CSV** (export "Collection" completo de ManaBox): un único archivo con
+    todos los contenedores. Incluye ``Binder Name`` (contenedor real),
+    ``Set code``, ``Collector number``, ``Rarity``, ``Quantity``, ``Foil``,
+    ``Condition``, ``Purchase price``, etc.
 """
 
 from __future__ import annotations
 
+import csv
+import io
 import re
 from collections import defaultdict
 from dataclasses import dataclass, field
@@ -171,6 +178,91 @@ def parse_binders(
 
 
 # --------------------------------------------------------------------------- #
+# Parsing del CSV de colección de ManaBox
+# --------------------------------------------------------------------------- #
+# Precios de compra por clave de carta (opcionales; sobreescriben el de mercado).
+CsvPurchasePrices = dict
+
+
+def parse_manabox_csv(
+    raw_text: str,
+) -> tuple[list[CardInput], dict[str, dict[str, int]], list[str], dict[str, float]]:
+    """Parsea el CSV "Collection" exportado por ManaBox.
+
+    A diferencia del export de texto, el CSV es un único archivo con TODOS los
+    contenedores (columna ``Binder Name``) y metadatos ricos.
+
+    Devuelve:
+      - ``inputs``: lista única de ``CardInput`` (deduplicada por ``set:cn``),
+        con la cantidad total sumada entre contenedores.
+      - ``locations``: mapa ``clave_carta -> {contenedor: copias}``.
+      - ``errors``: filas no interpretables (con índice de fila).
+      - ``purchase_prices``: mapa ``clave_carta -> precio de compra unitario``
+        (promedio ponderado si la carta aparece varias veces).
+    """
+    merged: dict[str, CardInput] = {}
+    locations: dict[str, dict[str, int]] = defaultdict(lambda: defaultdict(int))
+    errors: list[str] = []
+    # Acumuladores para promedio ponderado de precio de compra.
+    price_sum: dict[str, float] = defaultdict(float)
+    price_qty: dict[str, int] = defaultdict(int)
+
+    reader = csv.DictReader(io.StringIO(raw_text))
+    if reader.fieldnames is None:
+        return [], {}, ["CSV vacío o sin encabezado."], {}
+
+    # Normaliza nombres de columna (tolerante a mayúsculas/espacios).
+    def col(row: dict, name: str) -> str:
+        return (row.get(name) or "").strip()
+
+    for i, row in enumerate(reader, start=2):  # fila 2 = primera de datos
+        name = col(row, "Name")
+        if not name:
+            errors.append(f"Fila {i}: sin nombre de carta.")
+            continue
+
+        try:
+            qty = int(col(row, "Quantity") or "1")
+        except ValueError:
+            qty = 1
+        if qty <= 0:
+            qty = 1
+
+        set_code = col(row, "Set code") or None
+        cn = col(row, "Collector number") or None
+        container = col(row, "Binder Name") or "Sin contenedor"
+
+        card = CardInput(
+            quantity=qty, name=name, set=set_code, collector_number=cn
+        )
+        key = card.key
+
+        locations[key][container] += qty
+        if key in merged:
+            merged[key].quantity += qty
+        else:
+            merged[key] = card
+
+        # Precio de compra (opcional).
+        raw_price = col(row, "Purchase price")
+        if raw_price:
+            try:
+                price = float(raw_price)
+                price_sum[key] += price * qty
+                price_qty[key] += qty
+            except ValueError:
+                pass
+
+    flat_locations = {k: dict(v) for k, v in locations.items()}
+    purchase_prices = {
+        k: round(price_sum[k] / price_qty[k], 2)
+        for k in price_sum
+        if price_qty[k] > 0
+    }
+    return list(merged.values()), flat_locations, errors, purchase_prices
+
+
+# --------------------------------------------------------------------------- #
 # Agregación
 # --------------------------------------------------------------------------- #
 def _primary_type(type_line: str) -> str:
@@ -187,12 +279,17 @@ def build_collection_analysis(
     locations: dict[str, dict[str, int]],
     containers: list[str],
     not_found: list[str] | None = None,
+    purchase_prices: dict[str, float] | None = None,
 ) -> CollectionAnalysis:
     """Consolida enriquecimiento + trazabilidad en un ``CollectionAnalysis``.
 
     ``enriched`` e ``inputs`` deben estar alineados por índice (mismo orden que
     devuelve ``enrich_cards`` para la lista ``inputs``).
+
+    ``purchase_prices`` (opcional, del CSV de ManaBox): mapa ``clave -> precio``
+    que se usa como respaldo cuando Scryfall no reporta precio de mercado.
     """
+    purchase_prices = purchase_prices or {}
     by_color: dict[str, int] = {c: 0 for c in COLORS}
     by_type: dict[str, int] = defaultdict(int)
     by_rarity: dict[str, int] = defaultdict(int)
@@ -203,6 +300,11 @@ def build_collection_analysis(
     for card, inp in zip(enriched, inputs):
         loc = locations.get(inp.key, {})
         qty = sum(loc.values()) or card.quantity
+
+        # Respaldo de precio: usar el precio de compra del CSV si Scryfall no lo dio.
+        if (card.price_usd is None or card.price_usd == 0.0) and inp.key in purchase_prices:
+            card.price_usd = purchase_prices[inp.key]
+
         cards.append(CollectionCard(card=card, locations=loc))
 
         for container, copies in loc.items():

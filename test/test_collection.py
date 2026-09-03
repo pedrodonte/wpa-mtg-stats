@@ -16,6 +16,7 @@ from modules.collection import (
     collection_export_filename,
     container_name_from_filename,
     parse_binders,
+    parse_manabox_csv,
 )
 from modules.parser import CardInput
 from modules.scryfall_client import EnrichedCard
@@ -150,6 +151,66 @@ def test_example_files_parse():
     assert not errors, f"Líneas no reconocidas: {errors[:5]}"
     # Cada carta debe tener al menos un contenedor asociado.
     assert all(locations[i.key] for i in inputs)
+
+
+_CSV_SAMPLE = (
+    "Binder Name,Binder Type,Name,Set code,Set name,Collector number,Foil,"
+    "Rarity,Quantity,ManaBox ID,Scryfall ID,Purchase price,Misprint,Altered,"
+    "Condition,Language,Purchase price currency,Added\n"
+    "caja negra,binder,Murder,M19,Core Set 2019,110,normal,uncommon,1,1202,"
+    "abc,0.35,false,false,near_mint,es,USD,2026-09-02T19:27:22Z\n"
+    'caja negra,binder,"Syr Konrad, the Grim",DSC,Duskmourn Commander,158,'
+    "normal,uncommon,2,99128,def,1.79,false,false,near_mint,es,USD,2026Z\n"
+    "caja verde,binder,Murder,M19,Core Set 2019,110,normal,uncommon,1,1202,"
+    "abc,0.35,false,false,near_mint,es,USD,2026-09-02T19:27:22Z\n"
+)
+
+
+def test_parse_manabox_csv_basic():
+    inputs, locations, errors, prices = parse_manabox_csv(_CSV_SAMPLE)
+    assert not errors
+    names = {i.name: i.quantity for i in inputs}
+    # Murder aparece en 2 contenedores (1+1); Syr Konrad x2 en uno.
+    assert names["Murder"] == 2
+    assert names["Syr Konrad, the Grim"] == 2
+    murder_key = next(i.key for i in inputs if i.name == "Murder")
+    assert locations[murder_key] == {"caja negra": 1, "caja verde": 1}
+    # Precio de compra parseado.
+    assert prices[murder_key] == 0.35
+
+
+def test_parse_manabox_csv_quoted_names():
+    """Los nombres con coma van entre comillas y no deben romper el parse."""
+    inputs, _loc, _err, _prices = parse_manabox_csv(_CSV_SAMPLE)
+    assert any(i.name == "Syr Konrad, the Grim" for i in inputs)
+
+
+def test_csv_analysis_uses_purchase_price_fallback():
+    inputs, locations, _err, prices = parse_manabox_csv(_CSV_SAMPLE)
+    # EnrichedCard sin precio de mercado: debe caer al purchase price del CSV.
+    enriched = [
+        EnrichedCard(quantity=i.quantity, name=i.name, type_line="Instant")
+        for i in inputs
+    ]
+    analysis = build_collection_analysis(
+        enriched, inputs, locations, ["caja negra", "caja verde"],
+        purchase_prices=prices,
+    )
+    # Murder(0.35 x2) + Syr Konrad(1.79 x2) = 0.70 + 3.58 = 4.28.
+    assert analysis.total_value_usd == 4.28
+
+
+def test_real_csv_parses_if_present():
+    csv_path = EXAMPLES_DIR / "ManaBox_Collection.csv"
+    if not csv_path.exists():
+        return  # opcional: el CSV real puede no estar versionado.
+    inputs, locations, errors, _prices = parse_manabox_csv(
+        csv_path.read_text(encoding="utf-8")
+    )
+    assert inputs
+    assert not errors
+    containers = {cont for loc in locations.values() for cont in loc}
+    assert len(containers) >= 1
 
 
 def run() -> None:

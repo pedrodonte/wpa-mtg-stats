@@ -22,6 +22,7 @@ from modules.collection import (
     build_collection_report,
     collection_export_filename,
     parse_binders,
+    parse_manabox_csv,
 )
 from modules.parser import parse_decklist, total_cards
 from modules.report_builder import build_llm_report, build_report
@@ -247,20 +248,26 @@ def run_pipeline(raw_text: str, deck_size: int, strategy: str = "") -> None:
     log.empty()
 
 
-def run_collection_pipeline(binders: list[BinderFile]) -> None:
-    """Ingesta multi-contenedor → enriquecimiento → análisis de colección."""
-    inputs, locations, errors = parse_binders(binders)
+def _run_collection_analysis(
+    inputs,
+    locations,
+    containers: list[str],
+    filenames: list[str],
+    errors: list[str],
+    purchase_prices: dict | None = None,
+) -> None:
+    """Núcleo común: enriquecimiento + análisis + render, para TXT y CSV."""
     if not inputs:
-        st.error("No se pudieron parsear cartas de los archivos subidos.")
+        st.error("No se pudieron parsear cartas del/los archivo(s) subido(s).")
         return
     if errors:
-        with st.expander(f"⚠️ {len(errors)} línea(s) no reconocida(s)"):
-            st.code("\n".join(errors))
+        with st.expander(f"⚠️ {len(errors)} línea(s)/fila(s) no reconocida(s)"):
+            st.code("\n".join(errors[:200]))
 
-    containers = [b.container for b in binders]
+    total_copies = sum(sum(v.values()) for v in locations.values())
     st.info(
-        f"{len(binders)} contenedor(es) · {len(inputs)} cartas únicas · "
-        f"{sum(sum(v.values()) for v in locations.values())} copias."
+        f"{len(containers)} contenedor(es) · {len(inputs)} cartas únicas · "
+        f"{total_copies} copias."
     )
 
     progress = st.progress(0.0, text="Iniciando…")
@@ -275,7 +282,8 @@ def run_collection_pipeline(binders: list[BinderFile]) -> None:
     progress.progress(1.0, text="Analizando colección…")
 
     analysis = build_collection_analysis(
-        enriched, inputs, locations, containers, not_found=not_found
+        enriched, inputs, locations, containers,
+        not_found=not_found, purchase_prices=purchase_prices,
     )
     title = (
         f"Colección MTG · {containers[0]}"
@@ -288,9 +296,26 @@ def run_collection_pipeline(binders: list[BinderFile]) -> None:
     st.session_state.collection_analysis = analysis
     st.session_state.collection_md = report_md
     st.session_state.collection_llm_md = llm_md
-    st.session_state.collection_filenames = [b.filename for b in binders]
+    st.session_state.collection_filenames = filenames
     progress.empty()
     log.empty()
+
+
+def run_collection_pipeline(binders: list[BinderFile]) -> None:
+    """Ingesta de export de TEXTO (un archivo por contenedor)."""
+    inputs, locations, errors = parse_binders(binders)
+    containers = [b.container for b in binders]
+    filenames = [b.filename for b in binders]
+    _run_collection_analysis(inputs, locations, containers, filenames, errors)
+
+
+def run_collection_csv_pipeline(filename: str, raw_text: str) -> None:
+    """Ingesta del CSV 'Collection' de ManaBox (un archivo, multi-contenedor)."""
+    inputs, locations, errors, prices = parse_manabox_csv(raw_text)
+    containers = sorted({cont for loc in locations.values() for cont in loc})
+    _run_collection_analysis(
+        inputs, locations, containers, [filename], errors, purchase_prices=prices
+    )
 
 
 def reset_collection() -> None:
@@ -546,30 +571,46 @@ def _export_filename(name: str, now: datetime | None = None) -> str:
 # Vista de colección
 # --------------------------------------------------------------------------- #
 def render_collection_upload() -> None:
-    st.subheader("1 · Carga tus contenedores")
+    st.subheader("1 · Carga tu colección")
     st.caption(
-        "Sube uno o varios .txt exportados desde ManaBox (una carpeta o caja por "
-        "archivo). El nombre del archivo se usa como nombre del contenedor físico."
+        "Dos opciones: (A) el **CSV** de 'Export collection' de ManaBox — un solo "
+        "archivo con todos los contenedores; o (B) uno o varios **.txt** (una "
+        "carpeta/caja por archivo; el contenedor se toma del nombre del archivo)."
     )
 
     uploaded = st.file_uploader(
-        "Archivos .txt de ManaBox (multi-selección)",
-        type=["txt"],
+        "CSV de colección o archivos .txt de ManaBox (multi-selección)",
+        type=["csv", "txt"],
         accept_multiple_files=True,
     )
 
     if st.button("📦 Analizar colección", type="primary", use_container_width=True):
         if not uploaded:
-            st.warning("Sube al menos un archivo .txt primero.")
+            st.warning("Sube el CSV de colección o al menos un archivo .txt.")
             return
-        binders = [
-            BinderFile(
-                filename=f.name,
-                raw_text=f.read().decode("utf-8", errors="ignore"),
-            )
-            for f in uploaded
-        ]
-        run_collection_pipeline(binders)
+
+        csv_files = [f for f in uploaded if f.name.lower().endswith(".csv")]
+        txt_files = [f for f in uploaded if f.name.lower().endswith(".txt")]
+
+        if csv_files:
+            # Prioriza el CSV (contiene toda la colección). Usa el primero.
+            if len(csv_files) > 1:
+                st.warning(
+                    "Se subió más de un CSV; se analiza solo el primero "
+                    f"({csv_files[0].name})."
+                )
+            csv_file = csv_files[0]
+            raw = csv_file.read().decode("utf-8", errors="ignore")
+            run_collection_csv_pipeline(csv_file.name, raw)
+        else:
+            binders = [
+                BinderFile(
+                    filename=f.name,
+                    raw_text=f.read().decode("utf-8", errors="ignore"),
+                )
+                for f in txt_files
+            ]
+            run_collection_pipeline(binders)
 
 
 def render_collection_results() -> None:
